@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.orion.mdd_api.dtos.responses.TopicDto;
+import com.orion.mdd_api.dtos.TopicDto;
 import com.orion.mdd_api.models.Topic;
 
 @SpringBootTest

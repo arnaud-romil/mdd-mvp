@@ -1,4 +1,4 @@
-package com.orion.mdd_api.dtos.responses;
+package com.orion.mdd_api.dtos;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

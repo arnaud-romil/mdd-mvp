@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.mapstruct.Mapper;
 
-import com.orion.mdd_api.dtos.responses.TopicDto;
+import com.orion.mdd_api.dtos.TopicDto;
 import com.orion.mdd_api.models.Topic;
 
 @Mapper(componentModel = "spring")
