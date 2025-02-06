@@ -1,11 +1,14 @@
 package com.orion.mdd_api.controllers;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.orion.mdd_api.dtos.UserDto;
 import com.orion.mdd_api.payloads.requests.LoginRequest;
 import com.orion.mdd_api.payloads.requests.RegisterRequest;
 import com.orion.mdd_api.payloads.responses.LoginResponse;
@@ -34,5 +37,12 @@ public class AuthController {
     public ResponseEntity<LoginResponse> login(@Valid @RequestBody LoginRequest loginRequest) {
         LoginResponse loginResponse = userService.login(loginRequest);
         return ResponseEntity.ok(loginResponse);
+    }
+
+    @GetMapping("/me")
+    public ResponseEntity<UserDto> me(Authentication authentication) {
+        final String userEmail = authentication.getName();
+        UserDto userDto = userService.me(userEmail);
+        return ResponseEntity.ok(userDto);
     }
 }

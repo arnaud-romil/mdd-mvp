@@ -6,9 +6,11 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.orion.mdd_api.dtos.UserDto;
 import com.orion.mdd_api.exceptions.DatabaseException;
 import com.orion.mdd_api.exceptions.InvalidDataException;
 import com.orion.mdd_api.exceptions.UserUnauthorizedException;
+import com.orion.mdd_api.mappers.UserMapper;
 import com.orion.mdd_api.models.User;
 import com.orion.mdd_api.payloads.requests.LoginRequest;
 import com.orion.mdd_api.payloads.requests.RegisterRequest;
@@ -22,11 +24,18 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtUtil jwtUtil;
+    private UserMapper userMapper;
 
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, JwtUtil jwtUtil) {
+    public UserService(
+        UserRepository userRepository,
+        PasswordEncoder passwordEncoder,
+        JwtUtil jwtUtil, 
+        UserMapper userMapper) 
+    {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.jwtUtil = jwtUtil;
+        this.userMapper = userMapper;
     }
 
     public User registerUser(RegisterRequest registerRequest) {
@@ -69,6 +78,14 @@ public class UserService {
         }
 
         return new LoginResponse(jwtUtil.generateAccessToken(userOptional.get().getEmail()));   
+    }
+
+    public UserDto me(String userEmail) {
+
+        User user = userRepository.findByEmail(userEmail)
+           .orElseThrow(() -> new UserUnauthorizedException("User not found"));
+
+        return userMapper.toDto(user);      
     }
 
 }

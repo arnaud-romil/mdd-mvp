@@ -20,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
@@ -60,7 +61,7 @@ class AuthControllerTest {
                 .content(registerRequest)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("message").value("User registered successfully"));
+                .andExpect(jsonPath("$.message").value("User registered successfully"));
 
         User user = userRepository.findByUsername("user3").orElse(null);
         assertNotNull(user);
@@ -82,7 +83,7 @@ class AuthControllerTest {
             .content(registerRequest)
             .contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isBadRequest())
-            .andExpect(jsonPath("message").value(expectedValue));
+            .andExpect(jsonPath("$.message").value(expectedValue));
     }
 
     @ParameterizedTest
@@ -201,7 +202,7 @@ class AuthControllerTest {
         .content(loginRequest)
         .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
-        .andExpect(jsonPath("accessToken").exists())
+        .andExpect(jsonPath("$.accessToken").exists())
         .andReturn();
 
         LoginResponse loginResponse = objectMapper.readValue(result.getResponse().getContentAsString(), LoginResponse.class);
@@ -212,23 +213,44 @@ class AuthControllerTest {
         .andExpect(status().isOk());
     }
 
-    @Test
-    void shouldNotAllowUserToLoginWithBadCredentials() throws Exception {
-
-
-        final String badCredentials = 
+    @ParameterizedTest
+    @ValueSource(strings = {
+        // Invalid login
         """
-        {
-            "login": "user1",
-            "password": "bad-password"
-        }                
-        """;
+            {
+                "login": "invalid-login",
+                "password": "user1Password!"
+            }                
+        """,
+        // Invalid password
+        """
+            {
+                "login": "user1@test.com",
+                "password": "invalid-password"
+            }                
+        """
+    })
+    void shouldNotAllowUserToLoginWithBadCredentials(String badCredentials) throws Exception {
 
         mockMvc.perform(post("/auth/login")
         .content(badCredentials)
         .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isUnauthorized())
-        .andExpect(jsonPath("message").value("Invalid credentials"));
+        .andExpect(jsonPath("$.message").value("Invalid credentials"));
+    }
+
+    @Test
+    @WithMockUser("user1@test.com")
+    void shouldAllowUserToAccessProfile() throws Exception {
+
+        mockMvc.perform(get("/auth/me"))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.username").value("user1"))
+        .andExpect(jsonPath("$.email").value("user1@test.com"))
+        .andExpect(jsonPath("$.topics.length()").value(1))
+        .andExpect(jsonPath("$.topics[0].id").value(1))
+        .andExpect(jsonPath("$.topics[0].title").value("Java"))
+        .andExpect(jsonPath("$.topics[0].description").value("Java is a high-level, class-based, object-oriented programming language."));       
     }
 
  

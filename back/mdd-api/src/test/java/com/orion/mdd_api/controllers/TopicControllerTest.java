@@ -27,7 +27,7 @@ class TopicControllerTest {
         }
 
         @Test
-        @WithMockUser("user1")
+        @WithMockUser("user1@test.com")
         void shouldReturnAllTopics() throws Exception {
                 mockMvc.perform(get("/topics"))
                                 .andExpect(status().isOk())
