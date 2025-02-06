@@ -10,15 +10,14 @@ import org.springframework.web.bind.annotation.RestController;
 import com.orion.mdd_api.dtos.TopicDto;
 import com.orion.mdd_api.services.TopicService;
 
+import lombok.RequiredArgsConstructor;
+
 @RestController
 @RequestMapping("/topics")
+@RequiredArgsConstructor
 public class TopicController {
 
     private final TopicService topicService;
-
-    public TopicController(TopicService topicService) {
-        this.topicService = topicService;
-    }
 
     @GetMapping
     public ResponseEntity<List<TopicDto>> getAllTopics() {

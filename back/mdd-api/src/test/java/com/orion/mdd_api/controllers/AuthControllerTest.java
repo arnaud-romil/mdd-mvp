@@ -251,7 +251,5 @@ class AuthControllerTest {
         .andExpect(jsonPath("$.topics[0].id").value(1))
         .andExpect(jsonPath("$.topics[0].title").value("Java"))
         .andExpect(jsonPath("$.topics[0].description").value("Java is a high-level, class-based, object-oriented programming language."));       
-    }
-
- 
+    } 
 }

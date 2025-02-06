@@ -18,25 +18,16 @@ import com.orion.mdd_api.payloads.responses.LoginResponse;
 import com.orion.mdd_api.repositories.UserRepository;
 import com.orion.mdd_api.utils.JwtUtil;
 
+import lombok.RequiredArgsConstructor;
+
 @Service
+@RequiredArgsConstructor
 public class UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtUtil jwtUtil;
-    private UserMapper userMapper;
-
-    public UserService(
-        UserRepository userRepository,
-        PasswordEncoder passwordEncoder,
-        JwtUtil jwtUtil, 
-        UserMapper userMapper) 
-    {
-        this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
-        this.jwtUtil = jwtUtil;
-        this.userMapper = userMapper;
-    }
+    private final UserMapper userMapper;
 
     public User registerUser(RegisterRequest registerRequest) {
         User user = new User();
@@ -46,7 +37,7 @@ public class UserService {
         return saveUser(user);
     }
 
-    private User saveUser(User user) {
+    public User saveUser(User user) {
         try {
             return userRepository.save(user);
         }
@@ -81,11 +72,11 @@ public class UserService {
     }
 
     public UserDto me(String userEmail) {
-
-        User user = userRepository.findByEmail(userEmail)
-           .orElseThrow(() -> new UserUnauthorizedException("User not found"));
-
-        return userMapper.toDto(user);      
+        return userMapper.toDto(findByEmail(userEmail));      
     }
 
+    public User findByEmail(String userEmail) {
+        return userRepository.findByEmail(userEmail)
+           .orElseThrow(() -> new UserUnauthorizedException("User not found"));
+    }
 }
