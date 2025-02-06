@@ -1,5 +1,6 @@
 package com.orion.mdd_api.exceptions;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -12,6 +13,11 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(InvalidDataException.class)
     public ResponseEntity<MessageResponse> handleInvalidDataException(InvalidDataException ex) {
         return ResponseEntity.badRequest().body(new MessageResponse(ex.getMessage()));
+    }
+
+    @ExceptionHandler(UserUnauthorizedException.class)
+    public ResponseEntity<MessageResponse> handleUserUnauthorizedException(UserUnauthorizedException ex) {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new MessageResponse(ex.getMessage()));
     }
 
     @ExceptionHandler(DatabaseException.class)

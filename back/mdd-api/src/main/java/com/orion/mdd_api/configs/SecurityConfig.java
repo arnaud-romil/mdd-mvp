@@ -38,7 +38,7 @@ public class SecurityConfig {
         http.csrf(csrf -> csrf.disable())
         .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
         .authorizeHttpRequests(authorize -> {
-            authorize.requestMatchers("/auth/register").permitAll();
+            authorize.requestMatchers("/auth/register", "/auth/login").permitAll();
             authorize.anyRequest().authenticated();
         })
         .oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults()));

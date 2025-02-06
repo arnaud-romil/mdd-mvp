@@ -3,6 +3,7 @@ package com.orion.mdd_api.controllers;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -22,8 +23,11 @@ import org.springframework.http.MediaType;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.orion.mdd_api.models.User;
+import com.orion.mdd_api.payloads.responses.LoginResponse;
 import com.orion.mdd_api.repositories.UserRepository;
 
 @SpringBootTest
@@ -36,6 +40,9 @@ class AuthControllerTest {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private ObjectMapper objectMapper;
 
     @Test
     @DirtiesContext
@@ -168,8 +175,60 @@ class AuthControllerTest {
         return Stream.of(
             Arguments.of(0, emailAlreadyTaken),
             Arguments.of(1, usernameAlreadyTaken)
-        );
-        
+        );        
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {
+        // Login with username
+        """
+            {
+                "login": "user1",
+                "password": "user1Password!"
+            }                
+        """,
+        // Login with email
+        """
+            {
+                "login": "user1@test.com",
+                "password": "user1Password!"
+            }                
+        """
+    })
+    void shouldAllowUserToLogin(String loginRequest) throws Exception {
+
+        MvcResult result = mockMvc.perform(post("/auth/login")
+        .content(loginRequest)
+        .contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("accessToken").exists())
+        .andReturn();
+
+        LoginResponse loginResponse = objectMapper.readValue(result.getResponse().getContentAsString(), LoginResponse.class);
+                
+        mockMvc.perform(get("/topics")
+          .header("Authorization", "Bearer " + loginResponse.getAccessToken())
+        )
+        .andExpect(status().isOk());
+    }
+
+    @Test
+    void shouldNotAllowUserToLoginWithBadCredentials() throws Exception {
+
+
+        final String badCredentials = 
+        """
+        {
+            "login": "user1",
+            "password": "bad-password"
+        }                
+        """;
+
+        mockMvc.perform(post("/auth/login")
+        .content(badCredentials)
+        .contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isUnauthorized())
+        .andExpect(jsonPath("message").value("Invalid credentials"));
     }
 
  

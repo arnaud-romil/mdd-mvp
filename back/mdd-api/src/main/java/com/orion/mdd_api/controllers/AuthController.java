@@ -6,7 +6,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.orion.mdd_api.payloads.requests.LoginRequest;
 import com.orion.mdd_api.payloads.requests.RegisterRequest;
+import com.orion.mdd_api.payloads.responses.LoginResponse;
 import com.orion.mdd_api.payloads.responses.MessageResponse;
 import com.orion.mdd_api.services.UserService;
 
@@ -26,5 +28,11 @@ public class AuthController {
     public ResponseEntity<MessageResponse> register(@Valid @RequestBody RegisterRequest registerRequest) {
         userService.registerUser(registerRequest);
         return ResponseEntity.ok(new MessageResponse("User registered successfully"));
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<LoginResponse> login(@Valid @RequestBody LoginRequest loginRequest) {
+        LoginResponse loginResponse = userService.login(loginRequest);
+        return ResponseEntity.ok(loginResponse);
     }
 }

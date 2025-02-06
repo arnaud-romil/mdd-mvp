@@ -1,24 +1,32 @@
 package com.orion.mdd_api.services;
 
+import java.util.Optional;
+
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.orion.mdd_api.exceptions.DatabaseException;
 import com.orion.mdd_api.exceptions.InvalidDataException;
+import com.orion.mdd_api.exceptions.UserUnauthorizedException;
 import com.orion.mdd_api.models.User;
+import com.orion.mdd_api.payloads.requests.LoginRequest;
 import com.orion.mdd_api.payloads.requests.RegisterRequest;
+import com.orion.mdd_api.payloads.responses.LoginResponse;
 import com.orion.mdd_api.repositories.UserRepository;
+import com.orion.mdd_api.utils.JwtUtil;
 
 @Service
 public class UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final JwtUtil jwtUtil;
 
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, JwtUtil jwtUtil) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.jwtUtil = jwtUtil;
     }
 
     public User registerUser(RegisterRequest registerRequest) {
@@ -46,6 +54,21 @@ public class UserService {
         catch (Exception ex) {
           throw new DatabaseException(ex);
         }
+    }
+
+    public LoginResponse login(LoginRequest loginRequest) {
+        
+        Optional<User> userOptional = userRepository.findByEmail(loginRequest.getLogin());
+ 
+        if(userOptional.isEmpty()) {
+            userOptional = userRepository.findByUsername(loginRequest.getLogin());
+        }
+ 
+        if(userOptional.isEmpty() || !passwordEncoder.matches(loginRequest.getPassword(), userOptional.get().getPassword())) {
+            throw new UserUnauthorizedException("Invalid credentials");
+        }
+
+        return new LoginResponse(jwtUtil.generateAccessToken(userOptional.get().getEmail()));   
     }
 
 }

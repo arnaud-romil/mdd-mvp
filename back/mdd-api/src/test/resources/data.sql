@@ -4,5 +4,5 @@ INSERT INTO `TOPICS` (`ID`, `TITLE`, `DESCRIPTION`) VALUES
 
 
 INSERT INTO `USERS` (`USERNAME`, `EMAIL`, `PASSWORD`) VALUES 
-('user1', 'user1@test.com', 'user1Password!'),
-('user2', 'user2@test.com', 'user2Password!');
+('user1', 'user1@test.com', '$2a$10$Gf/3z.NzV3o33277IXdbDu37we2Gya0AUjLSaKqielBfCPYAAS9T.'),
+('user2', 'user2@test.com', '$2a$10$nESwX00s/1nGDGKe9Ocan.rEAKAAgDu5/2qoFyaKtLgxK/RJwUnXu');
