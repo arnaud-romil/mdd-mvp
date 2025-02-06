@@ -34,3 +34,7 @@ build/
 
 ### ENV VARIABLES ###
 init-env.ps1
+
+### JWT KEYS ###
+src/main/resources/app.key
+src/main/resources/app.pub

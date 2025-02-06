@@ -1,13 +1,19 @@
 package com.orion.mdd_api.controllers;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.util.stream.Stream;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.aggregator.ArgumentsAccessor;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -53,36 +59,23 @@ class AuthControllerTest {
         assertNotNull(user);
         assertEquals("user3", user.getUsername());
         assertEquals("user3@test.com", user.getEmail());
-
-        // TODO: Uncomment this line after password hashing is implemented
-        // assertNotEquals("user1Password!", user.getPassword());
+        assertNotEquals("user3Password!", user.getPassword());
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {
-        // Email is already taken
-        """
-            {
-                "username": "user5",
-                "email": "user1@test.com",
-                "password": "user5Password!"
-            }
-        """,
-        // Username is already taken
-        """
-            {
-                "username": "user2",
-                "email": "user5@test.com",
-                "password": "user5Password!"
-            }
-        """
-    })
-    void shoulNotAllowUserToRegister_WhenEmailOrUsernameIsAlreadyTaken(String registerRequest) throws Exception {
+    @MethodSource("provideRegisterRequests")
+    void shoulNotAllowUserToRegister_WhenEmailOrUsernameIsAlreadyTaken(ArgumentsAccessor arguments) throws Exception {
+
+        int index = arguments.getInteger(0);
+        String registerRequest = arguments.getString(1);
+
+        String expectedValue = index == 0 ? "Email is already taken": "Username is already taken";
+
         mockMvc.perform(post("/auth/register")
             .content(registerRequest)
             .contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isBadRequest())
-            .andExpect(jsonPath("message").value("Email or Username is already taken"));
+            .andExpect(jsonPath("message").value(expectedValue));
     }
 
     @ParameterizedTest
@@ -150,6 +143,33 @@ class AuthControllerTest {
                 .content(registerRequest)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest());
+    }
+
+    static Stream<Arguments> provideRegisterRequests() {
+
+        final String emailAlreadyTaken =
+        """
+            {
+                "username": "user5",
+                "email": "user1@test.com",
+                "password": "user5Password!"
+            }
+        """;
+
+        final String usernameAlreadyTaken =
+        """
+            {
+                "username": "user2",
+                "email": "user5@test.com",
+                "password": "user5Password!"
+            }
+        """;
+
+        return Stream.of(
+            Arguments.of(0, emailAlreadyTaken),
+            Arguments.of(1, usernameAlreadyTaken)
+        );
+        
     }
 
  
