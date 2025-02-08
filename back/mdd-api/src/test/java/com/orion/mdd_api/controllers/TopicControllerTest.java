@@ -31,7 +31,7 @@ class TopicControllerTest {
         void shouldReturnAllTopics() throws Exception {
                 mockMvc.perform(get("/topics"))
                                 .andExpect(status().isOk())
-                                .andExpect(jsonPath("$.length()").value(2))
+                                .andExpect(jsonPath("$.length()").value(22))
                                 .andExpect(jsonPath("[0].id").value(1))
                                 .andExpect(jsonPath("[0].title").value("Java"))
                                 .andExpect(jsonPath("[0].description")

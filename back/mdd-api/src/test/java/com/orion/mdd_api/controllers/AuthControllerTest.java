@@ -51,9 +51,9 @@ class AuthControllerTest {
 
         String registerRequest = """
                 {
-                    "username": "user3",
-                    "email": "user3@test.com",
-                    "password": "user3Password!"
+                    "username": "user35",
+                    "email": "user35@test.com",
+                    "password": "user35Password!"
                 }
                 """;
 
@@ -63,11 +63,11 @@ class AuthControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.message").value("User registered successfully"));
 
-        User user = userRepository.findByUsername("user3").orElse(null);
+        User user = userRepository.findByUsername("user35").orElse(null);
         assertNotNull(user);
-        assertEquals("user3", user.getUsername());
-        assertEquals("user3@test.com", user.getEmail());
-        assertNotEquals("user3Password!", user.getPassword());
+        assertEquals("user35", user.getUsername());
+        assertEquals("user35@test.com", user.getEmail());
+        assertNotEquals("user35Password!", user.getPassword());
     }
 
     @ParameterizedTest
@@ -158,9 +158,9 @@ class AuthControllerTest {
         final String emailAlreadyTaken =
         """
             {
-                "username": "user5",
+                "username": "user99",
                 "email": "user1@test.com",
-                "password": "user5Password!"
+                "password": "user99Password!"
             }
         """;
 
@@ -168,8 +168,8 @@ class AuthControllerTest {
         """
             {
                 "username": "user2",
-                "email": "user5@test.com",
-                "password": "user5Password!"
+                "email": "user99@test.com",
+                "password": "user99Password!"
             }
         """;
 
@@ -252,4 +252,5 @@ class AuthControllerTest {
         .andExpect(jsonPath("$.topics[0].title").value("Java"))
         .andExpect(jsonPath("$.topics[0].description").value("Java is a high-level, class-based, object-oriented programming language."));       
     } 
+
 }
