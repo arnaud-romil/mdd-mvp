@@ -51,11 +51,12 @@ INSERT INTO `USERS` (`USERNAME`, `EMAIL`, `PASSWORD`) VALUES
 
 
 INSERT INTO `SUBSCRIPTIONS` (`TOPICS_ID`, `USER_ID`) VALUES
-(1, 1);
+(1, 1),
+(1, 18);
 
 INSERT INTO `POSTS` (`title`, `content`, `topic_id`, `author_id`, `created_at`) VALUES  
-('Introduction à Java', 'Java est un langage de programmation populaire utilisé pour le developpement d''applications d''entreprise, mobiles et web.', 1, 1, CURRENT_TIMESTAMP()),
-('Les classes et objets en Java', 'Découvrez comment créer et utiliser des classes et objets en Java pour une programmation orientée objet efficace.', 1, 1, CURRENT_TIMESTAMP()),
+('Introduction à Java', 'Java est un langage de programmation populaire utilisé pour le developpement d''applications d''entreprise, mobiles et web.', 1, 1, '2024-12-08 14:30:15'),
+('Les classes et objets en Java', 'Découvrez comment créer et utiliser des classes et objets en Java pour une programmation orientée objet efficace.', 1, 1, '2024-12-05 14:30:15'),
 ('Introduction à Spring', 'Spring est un framework Java puissant facilitant le développement d''applications robustes et évolutives.', 2, 2, CURRENT_TIMESTAMP()),  
 ('Spring Boot : Démarrage rapide', 'Spring Boot simplifie le développement des applications Spring en réduisant la configuration nécessaire.', 2, 2, CURRENT_TIMESTAMP()),  
 ('Les bases de Python', 'Python est un langage facile à apprendre, idéal pour les débutants et puissant pour les experts.', 3, 3, CURRENT_TIMESTAMP()),  

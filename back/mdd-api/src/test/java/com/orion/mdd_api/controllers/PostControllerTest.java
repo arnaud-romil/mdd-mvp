@@ -38,6 +38,26 @@ class PostControllerTest {
         .andExpect(jsonPath("$.comments[0].content").value("Super article, très bien expliqué !"))
         .andExpect(jsonPath("$.comments[0].author").value("user3"))
         .andExpect(jsonPath("$.comments[0].createdAt").exists())
+        .andExpect(jsonPath("createdAt").exists())
+        ;
+    }
+
+    @Test
+    @WithMockUser("user18@test.com")
+    void shouldAllowUserToViewHisPersonalizedFeed() throws Exception {
+        mockMvc.perform(get("/posts"))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.length()").value(2))
+        .andExpect(jsonPath("[0].id").value(1))
+        .andExpect(jsonPath("[0].title").value("Introduction à Java"))
+        .andExpect(jsonPath("[0].content").value("Java est un langage de programmation populaire utilisé pour le developpement d'applications d'entreprise, mobiles et web."))
+        .andExpect(jsonPath("[0].author").value("user1"))
+        .andExpect(jsonPath("[0].createdAt").exists())
+        .andExpect(jsonPath("[1].id").value(2))
+        .andExpect(jsonPath("[1].title").value("Les classes et objets en Java"))
+        .andExpect(jsonPath("[1].content").value("Découvrez comment créer et utiliser des classes et objets en Java pour une programmation orientée objet efficace."))
+        .andExpect(jsonPath("[1].author").value("user1"))
+        .andExpect(jsonPath("[1].createdAt").exists())
         ;
     }
 

@@ -1,5 +1,6 @@
 package com.orion.mdd_api.dtos;
 
+import java.time.Instant;
 import java.util.List;
 
 import lombok.Getter;
@@ -15,4 +16,5 @@ public class PostDto {
     private String topic;
     private String author;
     private List<CommentDto> comments;    
+    private Instant createdAt;
 }
