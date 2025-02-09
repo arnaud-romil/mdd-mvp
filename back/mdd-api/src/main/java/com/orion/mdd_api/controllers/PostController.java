@@ -6,10 +6,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.orion.mdd_api.dtos.PostDto;
+import com.orion.mdd_api.payloads.requests.CommentRequest;
 import com.orion.mdd_api.services.PostService;
 
 import lombok.RequiredArgsConstructor;
@@ -20,7 +23,6 @@ import lombok.RequiredArgsConstructor;
 public class PostController {
 
     private final PostService postService;
-
     
     @GetMapping
     public ResponseEntity<List<PostDto>> getUserFeed(Authentication authentication) {
@@ -31,9 +33,13 @@ public class PostController {
     
     @GetMapping("/{postId}")
     public ResponseEntity<PostDto> getSinglePost(@PathVariable Long postId) {
-        return ResponseEntity.ok(postService.findById(postId));
+        return ResponseEntity.ok(postService.getSinglePost(postId));
     }
 
-
-
+    @PostMapping("/{postId}/comments")
+    public ResponseEntity<PostDto> addComment(@PathVariable Long postId, @RequestBody CommentRequest commentRequest, Authentication authentication) {
+        final String userEmail = authentication.getName();
+        PostDto post = postService.addComment(postId, commentRequest, userEmail);
+        return ResponseEntity.ok(post);
+    }
 }

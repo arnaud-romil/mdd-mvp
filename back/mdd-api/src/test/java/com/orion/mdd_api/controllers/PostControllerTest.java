@@ -1,6 +1,7 @@
 package com.orion.mdd_api.controllers;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -9,15 +10,17 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
+
 
 @SpringBootTest
 @ActiveProfiles("test")
 @AutoConfigureMockMvc
 class PostControllerTest {
-
 
     @Autowired
     private MockMvc mockMvc;
@@ -53,11 +56,36 @@ class PostControllerTest {
         .andExpect(jsonPath("[0].content").value("Java est un langage de programmation populaire utilisé pour le developpement d'applications d'entreprise, mobiles et web."))
         .andExpect(jsonPath("[0].author").value("user1"))
         .andExpect(jsonPath("[0].createdAt").exists())
+        .andExpect(jsonPath("[0].comments.length()").value(1))
         .andExpect(jsonPath("[1].id").value(2))
         .andExpect(jsonPath("[1].title").value("Les classes et objets en Java"))
         .andExpect(jsonPath("[1].content").value("Découvrez comment créer et utiliser des classes et objets en Java pour une programmation orientée objet efficace."))
         .andExpect(jsonPath("[1].author").value("user1"))
         .andExpect(jsonPath("[1].createdAt").exists())
+        ;
+    }
+
+    @Test
+    @WithMockUser("user18@test.com")
+    @DirtiesContext
+    void shouldAllowUserToAddCommentToAPost() throws Exception {
+
+        String commentRequest = """
+                {
+                    "content": "Article très utile! Merci."        
+                }
+                """;
+
+        mockMvc.perform(post("/posts/2/comments")
+        .content(commentRequest)
+        .contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.id").value(2))
+        .andExpect(jsonPath("$.title").value("Les classes et objets en Java"))
+        .andExpect(jsonPath("$.content").value("Découvrez comment créer et utiliser des classes et objets en Java pour une programmation orientée objet efficace."))
+        .andExpect(jsonPath("$.comments.length()").value(2))
+        .andExpect(jsonPath("$.comments[0].content").value("Article très utile! Merci."))
+        .andExpect(jsonPath("$.comments[0].author").value("user18"))
         ;
     }
 
