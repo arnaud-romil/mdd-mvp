@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -252,6 +253,55 @@ class AuthControllerTest {
         .andExpect(jsonPath("$.topics[0].title").value("Java"))
         .andExpect(
             jsonPath("$.topics[0].description")
-                .value("Java is a high-level, class-based, object-oriented programming language."));
+                .value(
+                    "Java est un langage de programmation de haut niveau, basé sur les classes et orienté objet."));
+  }
+
+  @DirtiesContext
+  @WithMockUser("user1@test.com")
+  @ParameterizedTest
+  @MethodSource("provideProfileUpdateRequests")
+  void shouldAllowUserToUpdateProfile(ArgumentsAccessor arguments) throws Exception {
+
+    int index = arguments.getInteger(0);
+    String profileUpdateRequest = arguments.getString(1);
+
+    String expectedUsername = index == 0 ? "new-username" : "user1";
+    String expectedEmail = index == 0 ? "user1@test.com" : "new-email@test.com";
+
+    mockMvc
+        .perform(
+            put("/auth/me").content(profileUpdateRequest).contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.username").value(expectedUsername))
+        .andExpect(jsonPath("$.email").value(expectedEmail))
+        .andExpect(jsonPath("$.topics.length()").value(1))
+        .andExpect(jsonPath("$.topics[0].id").value(1))
+        .andExpect(jsonPath("$.topics[0].title").value("Java"))
+        .andExpect(
+            jsonPath("$.topics[0].description")
+                .value(
+                    "Java est un langage de programmation de haut niveau, basé sur les classes et orienté objet."));
+  }
+
+  static Stream<Arguments> provideProfileUpdateRequests() {
+
+    final String updateUsername =
+        """
+            {
+                "username": "new-username",
+                "email": "user1@test.com"
+            }
+        """;
+
+    final String updateEmail =
+        """
+            {
+                "username": "user1",
+                "email": "new-email@test.com"
+            }
+        """;
+
+    return Stream.of(Arguments.of(0, updateUsername), Arguments.of(1, updateEmail));
   }
 }

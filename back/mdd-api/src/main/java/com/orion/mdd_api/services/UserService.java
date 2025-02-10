@@ -7,6 +7,7 @@ import com.orion.mdd_api.exceptions.UserUnauthorizedException;
 import com.orion.mdd_api.mappers.UserMapper;
 import com.orion.mdd_api.models.User;
 import com.orion.mdd_api.payloads.requests.LoginRequest;
+import com.orion.mdd_api.payloads.requests.ProfileUpdateRequest;
 import com.orion.mdd_api.payloads.requests.RegisterRequest;
 import com.orion.mdd_api.payloads.responses.LoginResponse;
 import com.orion.mdd_api.repositories.UserRepository;
@@ -75,5 +76,13 @@ public class UserService {
     return userRepository
         .findByEmail(userEmail)
         .orElseThrow(() -> new UserUnauthorizedException("User not found"));
+  }
+
+  public UserDto updateProfile(ProfileUpdateRequest profileUpdateRequest, String userEmail) {
+    User user = findByEmail(userEmail);
+    user.setUsername(profileUpdateRequest.getUsername());
+    user.setEmail(profileUpdateRequest.getEmail());
+    user = saveUser(user);
+    return userMapper.toDto(user);
   }
 }

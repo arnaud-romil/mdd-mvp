@@ -37,7 +37,7 @@ class UserControllerTest {
         .andExpect(
             jsonPath("$.topics[0].description")
                 .value(
-                    "Spring is a powerful, feature-rich framework for building Java applications."));
+                    "Spring est un framework puissant et riche en fonctionnalités pour développer des applications Java."));
   }
 
   @Test

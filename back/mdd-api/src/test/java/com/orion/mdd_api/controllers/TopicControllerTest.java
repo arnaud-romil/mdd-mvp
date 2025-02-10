@@ -35,12 +35,13 @@ class TopicControllerTest {
         .andExpect(jsonPath("[0].title").value("Java"))
         .andExpect(
             jsonPath("[0].description")
-                .value("Java is a high-level, class-based, object-oriented programming language."))
+                .value(
+                    "Java est un langage de programmation de haut niveau, basé sur les classes et orienté objet."))
         .andExpect(jsonPath("[1].id").value(2))
         .andExpect(jsonPath("[1].title").value("Spring"))
         .andExpect(
             jsonPath("[1].description")
                 .value(
-                    "Spring is a powerful, feature-rich framework for building Java applications."));
+                    "Spring est un framework puissant et riche en fonctionnalités pour développer des applications Java."));
   }
 }
