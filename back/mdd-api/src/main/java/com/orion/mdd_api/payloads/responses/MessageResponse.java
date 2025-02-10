@@ -7,6 +7,5 @@ import lombok.RequiredArgsConstructor;
 @Getter
 public class MessageResponse {
 
-    private final String message;
-
+  private final String message;
 }

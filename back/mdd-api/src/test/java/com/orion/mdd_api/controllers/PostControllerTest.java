@@ -16,24 +16,26 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
-
 @SpringBootTest
 @ActiveProfiles("test")
 @AutoConfigureMockMvc
 class PostControllerTest {
 
-    @Autowired
-    private MockMvc mockMvc;
+  @Autowired private MockMvc mockMvc;
 
-    @Test
-    @WithMockUser("user13@test.com")
-    void shouldAllowUserToViewPost() throws Exception {
-        mockMvc.perform(get("/posts/1"))
+  @Test
+  @WithMockUser("user13@test.com")
+  void shouldAllowUserToViewPost() throws Exception {
+    mockMvc
+        .perform(get("/posts/1"))
         .andExpect(status().isOk())
         .andExpect(content().encoding("UTF-8"))
         .andExpect(jsonPath("$.id").value(1))
         .andExpect(jsonPath("$.title").value("Introduction à Java"))
-        .andExpect(jsonPath("$.content").value("Java est un langage de programmation populaire utilisé pour le developpement d'applications d'entreprise, mobiles et web."))
+        .andExpect(
+            jsonPath("$.content")
+                .value(
+                    "Java est un langage de programmation populaire utilisé pour le developpement d'applications d'entreprise, mobiles et web."))
         .andExpect(jsonPath("$.topic").value("Java"))
         .andExpect(jsonPath("$.author").value("user1"))
         .andExpect(jsonPath("$.comments.length()").value(1))
@@ -41,78 +43,90 @@ class PostControllerTest {
         .andExpect(jsonPath("$.comments[0].content").value("Super article, très bien expliqué !"))
         .andExpect(jsonPath("$.comments[0].author").value("user3"))
         .andExpect(jsonPath("$.comments[0].createdAt").exists())
-        .andExpect(jsonPath("createdAt").exists())
-        ;
-    }
+        .andExpect(jsonPath("createdAt").exists());
+  }
 
-    @Test
-    @WithMockUser("user18@test.com")
-    void shouldAllowUserToViewHisPersonalizedFeed() throws Exception {
-        mockMvc.perform(get("/posts"))
+  @Test
+  @WithMockUser("user18@test.com")
+  void shouldAllowUserToViewHisPersonalizedFeed() throws Exception {
+    mockMvc
+        .perform(get("/posts"))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.length()").value(2))
         .andExpect(jsonPath("[0].id").value(1))
         .andExpect(jsonPath("[0].title").value("Introduction à Java"))
-        .andExpect(jsonPath("[0].content").value("Java est un langage de programmation populaire utilisé pour le developpement d'applications d'entreprise, mobiles et web."))
+        .andExpect(
+            jsonPath("[0].content")
+                .value(
+                    "Java est un langage de programmation populaire utilisé pour le developpement d'applications d'entreprise, mobiles et web."))
         .andExpect(jsonPath("[0].author").value("user1"))
         .andExpect(jsonPath("[0].createdAt").exists())
         .andExpect(jsonPath("[0].comments.length()").value(1))
         .andExpect(jsonPath("[1].id").value(2))
         .andExpect(jsonPath("[1].title").value("Les classes et objets en Java"))
-        .andExpect(jsonPath("[1].content").value("Découvrez comment créer et utiliser des classes et objets en Java pour une programmation orientée objet efficace."))
+        .andExpect(
+            jsonPath("[1].content")
+                .value(
+                    "Découvrez comment créer et utiliser des classes et objets en Java pour une programmation orientée objet efficace."))
         .andExpect(jsonPath("[1].author").value("user1"))
-        .andExpect(jsonPath("[1].createdAt").exists())
-        ;
-    }
+        .andExpect(jsonPath("[1].createdAt").exists());
+  }
 
-    @Test
-    @WithMockUser("user18@test.com")
-    @DirtiesContext
-    void shouldAllowUserToAddCommentToAPost() throws Exception {
+  @Test
+  @WithMockUser("user18@test.com")
+  @DirtiesContext
+  void shouldAllowUserToAddCommentToAPost() throws Exception {
 
-        String commentRequest = """
+    String commentRequest =
+        """
                 {
-                    "content": "Article très utile! Merci."        
+                    "content": "Article très utile! Merci."
                 }
                 """;
 
-        mockMvc.perform(post("/posts/2/comments")
-        .content(commentRequest)
-        .contentType(MediaType.APPLICATION_JSON))
+    mockMvc
+        .perform(
+            post("/posts/2/comments")
+                .content(commentRequest)
+                .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.id").value(2))
         .andExpect(jsonPath("$.title").value("Les classes et objets en Java"))
-        .andExpect(jsonPath("$.content").value("Découvrez comment créer et utiliser des classes et objets en Java pour une programmation orientée objet efficace."))
+        .andExpect(
+            jsonPath("$.content")
+                .value(
+                    "Découvrez comment créer et utiliser des classes et objets en Java pour une programmation orientée objet efficace."))
         .andExpect(jsonPath("$.comments.length()").value(2))
         .andExpect(jsonPath("$.comments[0].content").value("Article très utile! Merci."))
-        .andExpect(jsonPath("$.comments[0].author").value("user18"))
-        ;
-    }
+        .andExpect(jsonPath("$.comments[0].author").value("user18"));
+  }
 
-    @Test
-    @WithMockUser("user1@test.com")
-    @DirtiesContext
-    void shouldAllowUserToCreateAPost() throws Exception {
+  @Test
+  @WithMockUser("user1@test.com")
+  @DirtiesContext
+  void shouldAllowUserToCreateAPost() throws Exception {
 
-        String postCreationRequest = """
+    String postCreationRequest =
+        """
                 {
                     "title": "Les fondamentaux de Java",
                     "content": "Java est un langage puissant et polyvalent, utilisé pour le développement web, mobile et d’entreprise. Sa portabilité et sa gestion automatique de la mémoire en font un choix populaire.",
-                    "topicId": 1        
+                    "topicId": 1
                 }
                 """;
 
-        mockMvc.perform(post("/posts")
-        .content(postCreationRequest)
-        .contentType(MediaType.APPLICATION_JSON))
+    mockMvc
+        .perform(
+            post("/posts").content(postCreationRequest).contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.title").value("Les fondamentaux de Java"))
-        .andExpect(jsonPath("$.content").value("Java est un langage puissant et polyvalent, utilisé pour le développement web, mobile et d’entreprise. Sa portabilité et sa gestion automatique de la mémoire en font un choix populaire."))
+        .andExpect(
+            jsonPath("$.content")
+                .value(
+                    "Java est un langage puissant et polyvalent, utilisé pour le développement web, mobile et d’entreprise. Sa portabilité et sa gestion automatique de la mémoire en font un choix populaire."))
         .andExpect(jsonPath("$.topic").value("Java"))
         .andExpect(jsonPath("$.author").value("user1"))
         .andExpect(jsonPath("$.comments.length()").value(0))
-        .andExpect(jsonPath("$.createdAt").exists())       
-        ;
-    }
-
+        .andExpect(jsonPath("$.createdAt").exists());
+  }
 }

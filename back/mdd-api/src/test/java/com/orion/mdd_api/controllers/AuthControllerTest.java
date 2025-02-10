@@ -5,11 +5,15 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.orion.mdd_api.models.User;
+import com.orion.mdd_api.payloads.responses.LoginResponse;
+import com.orion.mdd_api.repositories.UserRepository;
 import java.util.stream.Stream;
-
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.aggregator.ArgumentsAccessor;
@@ -26,30 +30,23 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.orion.mdd_api.models.User;
-import com.orion.mdd_api.payloads.responses.LoginResponse;
-import com.orion.mdd_api.repositories.UserRepository;
-
 @SpringBootTest
 @ActiveProfiles("test")
 @AutoConfigureMockMvc
 class AuthControllerTest {
 
-    @Autowired
-    private MockMvc mockMvc;
+  @Autowired private MockMvc mockMvc;
 
-    @Autowired
-    private UserRepository userRepository;
+  @Autowired private UserRepository userRepository;
 
-    @Autowired
-    private ObjectMapper objectMapper;
+  @Autowired private ObjectMapper objectMapper;
 
-    @Test
-    @DirtiesContext
-    void shouldAllowUserToRegister() throws Exception {
+  @Test
+  @DirtiesContext
+  void shouldAllowUserToRegister() throws Exception {
 
-        String registerRequest = """
+    String registerRequest =
+        """
                 {
                     "username": "user35",
                     "email": "user35@test.com",
@@ -57,37 +54,39 @@ class AuthControllerTest {
                 }
                 """;
 
-        mockMvc.perform(post("/auth/register")
-                .content(registerRequest)
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.message").value("User registered successfully"));
+    mockMvc
+        .perform(
+            post("/auth/register").content(registerRequest).contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.message").value("User registered successfully"));
 
-        User user = userRepository.findByUsername("user35").orElse(null);
-        assertNotNull(user);
-        assertEquals("user35", user.getUsername());
-        assertEquals("user35@test.com", user.getEmail());
-        assertNotEquals("user35Password!", user.getPassword());
-    }
+    User user = userRepository.findByUsername("user35").orElse(null);
+    assertNotNull(user);
+    assertEquals("user35", user.getUsername());
+    assertEquals("user35@test.com", user.getEmail());
+    assertNotEquals("user35Password!", user.getPassword());
+  }
 
-    @ParameterizedTest
-    @MethodSource("provideRegisterRequests")
-    void shoulNotAllowUserToRegister_WhenEmailOrUsernameIsAlreadyTaken(ArgumentsAccessor arguments) throws Exception {
+  @ParameterizedTest
+  @MethodSource("provideRegisterRequests")
+  void shoulNotAllowUserToRegister_WhenEmailOrUsernameIsAlreadyTaken(ArgumentsAccessor arguments)
+      throws Exception {
 
-        int index = arguments.getInteger(0);
-        String registerRequest = arguments.getString(1);
+    int index = arguments.getInteger(0);
+    String registerRequest = arguments.getString(1);
 
-        String expectedValue = index == 0 ? "Email is already taken": "Username is already taken";
+    String expectedValue = index == 0 ? "Email is already taken" : "Username is already taken";
 
-        mockMvc.perform(post("/auth/register")
-            .content(registerRequest)
-            .contentType(MediaType.APPLICATION_JSON))
-            .andExpect(status().isBadRequest())
-            .andExpect(jsonPath("$.message").value(expectedValue));
-    }
+    mockMvc
+        .perform(
+            post("/auth/register").content(registerRequest).contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isBadRequest())
+        .andExpect(jsonPath("$.message").value(expectedValue));
+  }
 
-    @ParameterizedTest
-    @ValueSource(strings = {
+  @ParameterizedTest
+  @ValueSource(
+      strings = {
         // Username is empty
         """
             {
@@ -144,18 +143,19 @@ class AuthControllerTest {
                 "password": "user1Password!"
             }
         """
-    })
-    void shouldNotAllowUserToRegister_WhenRegisterRequestIsInvalid(String registerRequest) throws Exception {
+      })
+  void shouldNotAllowUserToRegister_WhenRegisterRequestIsInvalid(String registerRequest)
+      throws Exception {
 
-        mockMvc.perform(post("/auth/register")
-                .content(registerRequest)
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isBadRequest());
-    }
+    mockMvc
+        .perform(
+            post("/auth/register").content(registerRequest).contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isBadRequest());
+  }
 
-    static Stream<Arguments> provideRegisterRequests() {
+  static Stream<Arguments> provideRegisterRequests() {
 
-        final String emailAlreadyTaken =
+    final String emailAlreadyTaken =
         """
             {
                 "username": "user99",
@@ -164,7 +164,7 @@ class AuthControllerTest {
             }
         """;
 
-        final String usernameAlreadyTaken =
+    final String usernameAlreadyTaken =
         """
             {
                 "username": "user2",
@@ -173,84 +173,135 @@ class AuthControllerTest {
             }
         """;
 
-        return Stream.of(
-            Arguments.of(0, emailAlreadyTaken),
-            Arguments.of(1, usernameAlreadyTaken)
-        );        
-    }
+    return Stream.of(Arguments.of(0, emailAlreadyTaken), Arguments.of(1, usernameAlreadyTaken));
+  }
 
-    @ParameterizedTest
-    @ValueSource(strings = {
+  @ParameterizedTest
+  @ValueSource(
+      strings = {
         // Login with username
         """
             {
                 "login": "user1",
                 "password": "user1Password!"
-            }                
+            }
         """,
         // Login with email
         """
             {
                 "login": "user1@test.com",
                 "password": "user1Password!"
-            }                
+            }
         """
-    })
-    void shouldAllowUserToLogin(String loginRequest) throws Exception {
+      })
+  void shouldAllowUserToLogin(String loginRequest) throws Exception {
 
-        MvcResult result = mockMvc.perform(post("/auth/login")
-        .content(loginRequest)
-        .contentType(MediaType.APPLICATION_JSON))
-        .andExpect(status().isOk())
-        .andExpect(jsonPath("$.accessToken").exists())
-        .andReturn();
+    MvcResult result =
+        mockMvc
+            .perform(
+                post("/auth/login").content(loginRequest).contentType(MediaType.APPLICATION_JSON))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.accessToken").exists())
+            .andReturn();
 
-        LoginResponse loginResponse = objectMapper.readValue(result.getResponse().getContentAsString(), LoginResponse.class);
-                
-        mockMvc.perform(get("/topics")
-          .header("Authorization", "Bearer " + loginResponse.getAccessToken())
-        )
+    LoginResponse loginResponse =
+        objectMapper.readValue(result.getResponse().getContentAsString(), LoginResponse.class);
+
+    mockMvc
+        .perform(get("/topics").header("Authorization", "Bearer " + loginResponse.getAccessToken()))
         .andExpect(status().isOk());
-    }
+  }
 
-    @ParameterizedTest
-    @ValueSource(strings = {
+  @ParameterizedTest
+  @ValueSource(
+      strings = {
         // Invalid login
         """
             {
                 "login": "invalid-login",
                 "password": "user1Password!"
-            }                
+            }
         """,
         // Invalid password
         """
             {
                 "login": "user1@test.com",
                 "password": "invalid-password"
-            }                
+            }
         """
-    })
-    void shouldNotAllowUserToLoginWithBadCredentials(String badCredentials) throws Exception {
+      })
+  void shouldNotAllowUserToLoginWithBadCredentials(String badCredentials) throws Exception {
 
-        mockMvc.perform(post("/auth/login")
-        .content(badCredentials)
-        .contentType(MediaType.APPLICATION_JSON))
+    mockMvc
+        .perform(
+            post("/auth/login").content(badCredentials).contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isUnauthorized())
         .andExpect(jsonPath("$.message").value("Invalid credentials"));
-    }
+  }
 
-    @Test
-    @WithMockUser("user1@test.com")
-    void shouldAllowUserToAccessProfile() throws Exception {
+  @Test
+  @WithMockUser("user1@test.com")
+  void shouldAllowUserToAccessProfile() throws Exception {
 
-        mockMvc.perform(get("/auth/me"))
+    mockMvc
+        .perform(get("/auth/me"))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$.username").value("user1"))
         .andExpect(jsonPath("$.email").value("user1@test.com"))
         .andExpect(jsonPath("$.topics.length()").value(1))
         .andExpect(jsonPath("$.topics[0].id").value(1))
         .andExpect(jsonPath("$.topics[0].title").value("Java"))
-        .andExpect(jsonPath("$.topics[0].description").value("Java is a high-level, class-based, object-oriented programming language."));       
-    } 
+        .andExpect(
+            jsonPath("$.topics[0].description")
+                .value(
+                    "Java est un langage de programmation de haut niveau, basé sur les classes et orienté objet."));
+  }
 
+  @DirtiesContext
+  @WithMockUser("user1@test.com")
+  @ParameterizedTest
+  @MethodSource("provideProfileUpdateRequests")
+  void shouldAllowUserToUpdateProfile(ArgumentsAccessor arguments) throws Exception {
+
+    int index = arguments.getInteger(0);
+    String profileUpdateRequest = arguments.getString(1);
+
+    String expectedUsername = index == 0 ? "new-username" : "user1";
+    String expectedEmail = index == 0 ? "user1@test.com" : "new-email@test.com";
+
+    mockMvc
+        .perform(
+            put("/auth/me").content(profileUpdateRequest).contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.username").value(expectedUsername))
+        .andExpect(jsonPath("$.email").value(expectedEmail))
+        .andExpect(jsonPath("$.topics.length()").value(1))
+        .andExpect(jsonPath("$.topics[0].id").value(1))
+        .andExpect(jsonPath("$.topics[0].title").value("Java"))
+        .andExpect(
+            jsonPath("$.topics[0].description")
+                .value(
+                    "Java est un langage de programmation de haut niveau, basé sur les classes et orienté objet."));
+  }
+
+  static Stream<Arguments> provideProfileUpdateRequests() {
+
+    final String updateUsername =
+        """
+            {
+                "username": "new-username",
+                "email": "user1@test.com"
+            }
+        """;
+
+    final String updateEmail =
+        """
+            {
+                "username": "user1",
+                "email": "new-email@test.com"
+            }
+        """;
+
+    return Stream.of(Arguments.of(0, updateUsername), Arguments.of(1, updateEmail));
+  }
 }

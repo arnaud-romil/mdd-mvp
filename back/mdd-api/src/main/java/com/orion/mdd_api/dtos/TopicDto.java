@@ -9,7 +9,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class TopicDto {
 
-    private Long id;
-    private String title;
-    private String description;
+  private Long id;
+  private String title;
+  private String description;
 }
