@@ -1,6 +1,7 @@
 package com.orion.mdd_api.services;
 
 import java.time.Instant;
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -13,6 +14,7 @@ import com.orion.mdd_api.models.Post;
 import com.orion.mdd_api.models.Topic;
 import com.orion.mdd_api.models.User;
 import com.orion.mdd_api.payloads.requests.CommentRequest;
+import com.orion.mdd_api.payloads.requests.PostCreationRequest;
 import com.orion.mdd_api.repositories.PostRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -25,6 +27,7 @@ public class PostService {
     private final PostMapper postMapper;
     private final UserService userService;
     private final CommentService commentService;
+    private final TopicService topicService;
 
     public PostDto getSinglePost(Long postId) {
         return postMapper.toDto(findById(postId));
@@ -58,5 +61,23 @@ public class PostService {
     private Post findById(Long postId) {
         return postRepository.findById(postId)
             .orElseThrow(() -> new InvalidDataException("Post not found"));
+    }
+
+    public PostDto createPost(PostCreationRequest postCreationRequest, String userEmail) {
+        User user = userService.findByEmail(userEmail);
+
+        Topic topic = topicService.findById(postCreationRequest.getTopicId());
+
+        Post post = new Post();
+        post.setTitle(postCreationRequest.getTitle());
+        post.setContent(postCreationRequest.getContent());
+        post.setTopic(topic);
+        post.setAuthor(user);
+        post.setComments(Collections.emptySet());
+        post.setCreatedAt(Instant.now());
+
+        postRepository.save(post);
+
+        return postMapper.toDto(post);
     }
 }

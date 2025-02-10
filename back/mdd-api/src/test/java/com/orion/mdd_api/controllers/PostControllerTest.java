@@ -89,4 +89,30 @@ class PostControllerTest {
         ;
     }
 
+    @Test
+    @WithMockUser("user1@test.com")
+    @DirtiesContext
+    void shouldAllowUserToCreateAPost() throws Exception {
+
+        String postCreationRequest = """
+                {
+                    "title": "Les fondamentaux de Java",
+                    "content": "Java est un langage puissant et polyvalent, utilisé pour le développement web, mobile et d’entreprise. Sa portabilité et sa gestion automatique de la mémoire en font un choix populaire.",
+                    "topicId": 1        
+                }
+                """;
+
+        mockMvc.perform(post("/posts")
+        .content(postCreationRequest)
+        .contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.title").value("Les fondamentaux de Java"))
+        .andExpect(jsonPath("$.content").value("Java est un langage puissant et polyvalent, utilisé pour le développement web, mobile et d’entreprise. Sa portabilité et sa gestion automatique de la mémoire en font un choix populaire."))
+        .andExpect(jsonPath("$.topic").value("Java"))
+        .andExpect(jsonPath("$.author").value("user1"))
+        .andExpect(jsonPath("$.comments.length()").value(0))
+        .andExpect(jsonPath("$.createdAt").exists())       
+        ;
+    }
+
 }

@@ -13,8 +13,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.orion.mdd_api.dtos.PostDto;
 import com.orion.mdd_api.payloads.requests.CommentRequest;
+import com.orion.mdd_api.payloads.requests.PostCreationRequest;
 import com.orion.mdd_api.services.PostService;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -37,9 +39,16 @@ public class PostController {
     }
 
     @PostMapping("/{postId}/comments")
-    public ResponseEntity<PostDto> addComment(@PathVariable Long postId, @RequestBody CommentRequest commentRequest, Authentication authentication) {
+    public ResponseEntity<PostDto> addComment(@PathVariable Long postId, @Valid @RequestBody CommentRequest commentRequest, Authentication authentication) {
         final String userEmail = authentication.getName();
         PostDto post = postService.addComment(postId, commentRequest, userEmail);
+        return ResponseEntity.ok(post);
+    }
+
+    @PostMapping
+    public ResponseEntity<PostDto> createPost(@Valid @RequestBody PostCreationRequest postCreationRequest, Authentication authentication) {
+        final String userEmail = authentication.getName();
+        PostDto post = postService.createPost(postCreationRequest, userEmail);
         return ResponseEntity.ok(post);
     }
 }

@@ -29,12 +29,12 @@ public class UserService {
     private final JwtUtil jwtUtil;
     private final UserMapper userMapper;
 
-    public User registerUser(RegisterRequest registerRequest) {
+    public void registerUser(RegisterRequest registerRequest) {
         User user = new User();
         user.setUsername(registerRequest.getUsername());
         user.setEmail(registerRequest.getEmail());
         user.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
-        return saveUser(user);
+        saveUser(user);
     }
 
     public User saveUser(User user) {
