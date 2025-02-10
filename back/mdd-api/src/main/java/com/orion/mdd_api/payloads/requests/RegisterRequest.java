@@ -13,16 +13,13 @@ import lombok.Setter;
 @NoArgsConstructor
 public class RegisterRequest {
 
-    @NotEmpty
-    private String username;
-    @Email
-    private String email;
+  @NotEmpty private String username;
+  @Email private String email;
 
-    @Size(min = 8, message = "Password must be at least 8 characters long")
-
-    @Pattern(
-        regexp = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!]).*$", 
-        message = "Password must contain at least one uppercase letter, one lowercase letter, one digit and one special character"
-    )
-    private String password;
+  @Size(min = 8, message = "Password must be at least 8 characters long")
+  @Pattern(
+      regexp = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!]).*$",
+      message =
+          "Password must contain at least one uppercase letter, one lowercase letter, one digit and one special character")
+  private String password;
 }

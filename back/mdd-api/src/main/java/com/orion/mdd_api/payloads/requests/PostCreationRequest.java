@@ -9,10 +9,7 @@ import lombok.Setter;
 @Setter
 public class PostCreationRequest {
 
-    @NotBlank
-    private String title;
-    @NotBlank
-    private String content;
-    @NotNull
-    private Long topicId;
+  @NotBlank private String title;
+  @NotBlank private String content;
+  @NotNull private Long topicId;
 }

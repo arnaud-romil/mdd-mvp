@@ -8,9 +8,8 @@ import org.springframework.test.context.ActiveProfiles;
 @ActiveProfiles("test")
 class MddApiApplicationTests {
 
-	@Test
-	void contextLoads() {
-		// Loads the context
-	}
-
+  @Test
+  void contextLoads() {
+    // Loads the context
+  }
 }

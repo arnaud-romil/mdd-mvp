@@ -1,7 +1,6 @@
 package com.orion.mdd_api.dtos;
 
 import java.time.Instant;
-
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,8 +8,8 @@ import lombok.Setter;
 @Setter
 public class CommentDto {
 
-    private Long id;
-    private String content;
-    private String author;
-    private Instant createdAt;
+  private Long id;
+  private String content;
+  private String author;
+  private Instant createdAt;
 }

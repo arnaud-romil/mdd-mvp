@@ -17,29 +17,30 @@ import org.springframework.test.web.servlet.MockMvc;
 @AutoConfigureMockMvc
 class TopicControllerTest {
 
-        @Autowired
-        private MockMvc mockMvc;
+  @Autowired private MockMvc mockMvc;
 
-        @Test
-        void shouldReturnUnauthorizedStatusCode() throws Exception {
-                mockMvc.perform(get("/topics"))
-                        .andExpect(status().isUnauthorized());
-        }
+  @Test
+  void shouldReturnUnauthorizedStatusCode() throws Exception {
+    mockMvc.perform(get("/topics")).andExpect(status().isUnauthorized());
+  }
 
-        @Test
-        @WithMockUser("user1@test.com")
-        void shouldReturnAllTopics() throws Exception {
-                mockMvc.perform(get("/topics"))
-                                .andExpect(status().isOk())
-                                .andExpect(jsonPath("$.length()").value(22))
-                                .andExpect(jsonPath("[0].id").value(1))
-                                .andExpect(jsonPath("[0].title").value("Java"))
-                                .andExpect(jsonPath("[0].description")
-                                                .value("Java is a high-level, class-based, object-oriented programming language."))
-                                .andExpect(jsonPath("[1].id").value(2))
-                                .andExpect(jsonPath("[1].title").value("Spring"))
-                                .andExpect(jsonPath("[1].description")
-                                                .value("Spring is a powerful, feature-rich framework for building Java applications."));
-        }
-
+  @Test
+  @WithMockUser("user1@test.com")
+  void shouldReturnAllTopics() throws Exception {
+    mockMvc
+        .perform(get("/topics"))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.length()").value(22))
+        .andExpect(jsonPath("[0].id").value(1))
+        .andExpect(jsonPath("[0].title").value("Java"))
+        .andExpect(
+            jsonPath("[0].description")
+                .value("Java is a high-level, class-based, object-oriented programming language."))
+        .andExpect(jsonPath("[1].id").value(2))
+        .andExpect(jsonPath("[1].title").value("Spring"))
+        .andExpect(
+            jsonPath("[1].description")
+                .value(
+                    "Spring is a powerful, feature-rich framework for building Java applications."));
+  }
 }
