@@ -22,7 +22,6 @@ export class AuthService {
     }
 
     private setToken(token: string): void {
-        console.log(`accessToken received : ${token}`);
         sessionStorage.setItem('jwt', token);
     }
 

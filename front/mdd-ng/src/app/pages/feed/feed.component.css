@@ -1,0 +1,13 @@
+.feed-container {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 16px;
+}
+
+.post-card {
+    max-width: 600px;
+    margin: auto;
+    padding: 16px;
+    background-color: #f4f4f4;
+}

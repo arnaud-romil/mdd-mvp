@@ -8,11 +8,9 @@ import { MatButtonModule } from '@angular/material/button';
   selector: 'app-topic-list',
   standalone: true,
   imports: [
-    MatButtonModule
-    /*
-    AsyncPipe, 
+    MatButtonModule,
+    AsyncPipe,
     TopicComponent
-    */
   ],
   templateUrl: './topic-list.component.html',
   styleUrl: './topic-list.component.css'
@@ -20,8 +18,8 @@ import { MatButtonModule } from '@angular/material/button';
 export class TopicListComponent {
 
 
-  //constructor(private readonly topicService: TopicService) { }
+  constructor(private readonly topicService: TopicService) { }
 
-  //topics$ = this.topicService.topics$;
+  topics$ = this.topicService.topics$;
 
 }

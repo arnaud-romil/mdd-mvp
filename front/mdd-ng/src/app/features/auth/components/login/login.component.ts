@@ -39,8 +39,7 @@ export class LoginComponent {
         take(1)
       ).subscribe({
         next: () => {
-          console.log('login ok');
-          //this.router.navigate(['/feed'])
+          this.router.navigate(['/feed'])
         },
         error: (err) => {
           console.error('Erreur de connexion', err)
