@@ -1,0 +1,26 @@
+<div class="login-container">
+    <mat-card class="login-card">
+        <h2>Connexion</h2>
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+            <mat-form-field appearance="outline" class="full-width">
+                <mat-label>E-mail ou nom d'utilisateur </mat-label>
+                <input matInput type="text" formControlName="login">
+                <mat-error *ngIf="loginForm.controls['login'].invalid && loginForm.controls['login'].touched">
+                    Entrez un email ou un nom d'utilisateur valide.
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Mot de passe</mat-label>
+                <input matInput type="password" formControlName="password">
+                <mat-error *ngIf="loginForm.controls['password'].invalid && loginForm.controls['password'].touched">
+                    Mot de passe requis (min. 8 caractères).
+                </mat-error>
+            </mat-form-field>
+
+            <button mat-raised-button color="primary" class="full-width" type="submit" [disabled]="loginForm.invalid">
+                Se connecter
+            </button>
+        </form>
+    </mat-card>
+</div>
