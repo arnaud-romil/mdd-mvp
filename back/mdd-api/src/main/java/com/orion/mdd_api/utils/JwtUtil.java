@@ -13,7 +13,7 @@ public class JwtUtil {
   private final JwtEncoder jwtEncoder;
 
   @Value("${jwt.accesstoken.validity}")
-  private long tokenValidity;
+  private int accessTokenValidity;
 
   @Value("${spring.application.name}")
   private String appName;
@@ -30,7 +30,7 @@ public class JwtUtil {
         JwtClaimsSet.builder()
             .issuer(appName)
             .issuedAt(now)
-            .expiresAt(now.plusSeconds(tokenValidity))
+            .expiresAt(now.plusSeconds(accessTokenValidity))
             .subject(userEmail)
             .claim("scope", "")
             .build();

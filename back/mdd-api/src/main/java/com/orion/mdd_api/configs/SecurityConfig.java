@@ -38,7 +38,9 @@ public class SecurityConfig {
             session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
         .authorizeHttpRequests(
             authorize -> {
-              authorize.requestMatchers("/auth/register", "/auth/login").permitAll();
+              authorize
+                  .requestMatchers("/auth/register", "/auth/login", "/auth/refresh-token")
+                  .permitAll();
               authorize.anyRequest().authenticated();
             })
         .oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults()));

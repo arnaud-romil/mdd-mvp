@@ -12,6 +12,7 @@ import com.orion.mdd_api.payloads.requests.RegisterRequest;
 import com.orion.mdd_api.payloads.responses.LoginResponse;
 import com.orion.mdd_api.repositories.UserRepository;
 import com.orion.mdd_api.utils.JwtUtil;
+import jakarta.servlet.http.Cookie;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -23,6 +24,7 @@ import org.springframework.stereotype.Service;
 public class UserService {
 
   private final UserRepository userRepository;
+  private final RefreshTokenService refreshTokenService;
   private final PasswordEncoder passwordEncoder;
   private final JwtUtil jwtUtil;
   private final UserMapper userMapper;
@@ -65,7 +67,11 @@ public class UserService {
       throw new UserUnauthorizedException("Invalid credentials");
     }
 
-    return new LoginResponse(jwtUtil.generateAccessToken(userOptional.get().getEmail()));
+    User user = userOptional.get();
+
+    Cookie refreshTokenCookie = refreshTokenService.buildRefreshTokenCookie(user);
+
+    return new LoginResponse(jwtUtil.generateAccessToken(user.getEmail()), refreshTokenCookie);
   }
 
   public UserDto me(String userEmail) {

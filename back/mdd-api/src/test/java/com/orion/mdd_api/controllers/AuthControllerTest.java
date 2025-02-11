@@ -1,18 +1,23 @@
 package com.orion.mdd_api.controllers;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.cookie;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.orion.mdd_api.models.User;
 import com.orion.mdd_api.payloads.responses.LoginResponse;
+import com.orion.mdd_api.repositories.RefreshTokenRepository;
 import com.orion.mdd_api.repositories.UserRepository;
+import jakarta.servlet.http.Cookie;
+import java.time.Instant;
 import java.util.stream.Stream;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -40,6 +45,8 @@ class AuthControllerTest {
   @Autowired private UserRepository userRepository;
 
   @Autowired private ObjectMapper objectMapper;
+
+  @Autowired private RefreshTokenRepository refreshTokenRepository;
 
   @Test
   @DirtiesContext
@@ -202,6 +209,8 @@ class AuthControllerTest {
                 post("/auth/login").content(loginRequest).contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk())
             .andExpect(jsonPath("$.accessToken").exists())
+            .andExpect(cookie().exists("refreshToken"))
+            .andExpect(cookie().httpOnly("refreshToken", true))
             .andReturn();
 
     LoginResponse loginResponse =
@@ -303,5 +312,56 @@ class AuthControllerTest {
         """;
 
     return Stream.of(Arguments.of(0, updateUsername), Arguments.of(1, updateEmail));
+  }
+
+  @Test
+  void shouldAllowUserToRefreshAccessToken() throws Exception {
+
+    Cookie refreshTokenCookie = new Cookie("refreshToken", "333c2b10-d887-4298-abdf-9e8fdef01ca3");
+
+    MvcResult result =
+        mockMvc
+            .perform(
+                post("/auth/refresh-token")
+                    .cookie(refreshTokenCookie)
+                    .contentType(MediaType.APPLICATION_JSON))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("accessToken").exists())
+            .andReturn();
+
+    LoginResponse loginResponse =
+        objectMapper.readValue(result.getResponse().getContentAsString(), LoginResponse.class);
+
+    mockMvc
+        .perform(
+            get("/auth/me").header("Authorization", "Bearer " + loginResponse.getAccessToken()))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.username").value("user1"));
+  }
+
+  @Test
+  void shouldNotAllowUserToGetTokenWithInvalidRefreshTokenCookie() throws Exception {
+
+    Cookie refreshTokenCookie = new Cookie("refreshToken", "invalid-refresh-token");
+
+    mockMvc
+        .perform(
+            post("/auth/refresh-token")
+                .cookie(refreshTokenCookie)
+                .contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isUnauthorized());
+  }
+
+  @Test
+  @DirtiesContext
+  @WithMockUser("user1@test.com")
+  void shouldAllowUserToLogOut() throws Exception {
+
+    mockMvc.perform(post("/auth/logout")).andExpect(status().isNoContent());
+
+    assertFalse(
+        refreshTokenRepository
+            .findByTokenAndExpiresAtAfter("333c2b10-d887-4298-abdf-9e8fdef01ca3", Instant.now())
+            .isPresent());
   }
 }
