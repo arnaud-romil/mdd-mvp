@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { AuthService } from '../../../../core/auth.service';
+import { AuthService } from '../../core/auth.service';
 import { Router } from '@angular/router';
 import { take } from 'rxjs';
 import { NgIf } from '@angular/common';
