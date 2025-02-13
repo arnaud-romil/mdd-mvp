@@ -1,8 +1,9 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Observable, take, tap } from "rxjs";
+import { BehaviorSubject, Observable, take, tap } from "rxjs";
 import { AccessToken } from "../models/accessToken.interface";
 import { LoginRequest } from "../models/loginRequest.interface";
+import { User } from "../models/user.interface";
 
 @Injectable({
     providedIn: 'root'
@@ -10,16 +11,28 @@ import { LoginRequest } from "../models/loginRequest.interface";
 export class AuthService {
 
     private readonly apiUrl = 'http://localhost:3000/api/auth';
+    private readonly userSubject = new BehaviorSubject<User | null>(null);
+    readonly user$ = this.userSubject.asObservable();
 
     constructor(private readonly http: HttpClient) { }
 
     login(credentials: LoginRequest): Observable<AccessToken> {
         return this.http.post<AccessToken>(`${this.apiUrl}/login`, credentials).pipe(
             tap(response => {
-                this.setToken(response.accessToken);
+                this.setToken(response.accessToken)
             })
         );
     }
+
+    fetchUser(): void {
+        this.http.get<User>(`${this.apiUrl}/me`)
+            .pipe(take(1))
+            .subscribe({
+                next: (user) => this.userSubject.next(user),
+                error: () => this.userSubject.next(null)
+            });
+    }
+
 
     refreshToken(): Observable<AccessToken> {
         return this.http.post<AccessToken>(`${this.apiUrl}/refresh-token`, {}, { withCredentials: true }).pipe(

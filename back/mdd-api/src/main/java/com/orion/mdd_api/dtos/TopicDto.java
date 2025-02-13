@@ -12,4 +12,5 @@ public class TopicDto {
   private Long id;
   private String title;
   private String description;
+  private boolean subscribed;
 }

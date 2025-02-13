@@ -37,11 +37,13 @@ class TopicControllerTest {
             jsonPath("[0].description")
                 .value(
                     "Java est un langage de programmation de haut niveau, basé sur les classes et orienté objet."))
+        .andExpect(jsonPath("[0].subscribed").value(true))
         .andExpect(jsonPath("[1].id").value(2))
         .andExpect(jsonPath("[1].title").value("Spring"))
         .andExpect(
             jsonPath("[1].description")
                 .value(
-                    "Spring est un framework puissant et riche en fonctionnalités pour développer des applications Java."));
+                    "Spring est un framework puissant et riche en fonctionnalités pour développer des applications Java."))
+        .andExpect(jsonPath("[1].subscribed").value(false));
   }
 }
