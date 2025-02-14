@@ -1,3 +1,10 @@
+<div class="feed-header">
+    <h2>Mon Feed</h2>
+    <button mat-raised-button color="primary" routerLink="/create-post">
+        ✍️ Créer un article
+    </button>
+</div>
+
 <div class="feed-container">
     <mat-card *ngFor="let post of posts$ | async" class="post-card">
         <mat-card-header>

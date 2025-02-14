@@ -20,6 +20,10 @@ export class PostService {
     return this.http.get<Post>(`${this.apiUrl}/${postId}`);
   }
 
+  createPost(postData: Post): Observable<Post> {
+    return this.http.post<Post>(`${this.apiUrl}`, postData);
+  }
+
   addCommentToPost(postId: number, commentContent: { content: string }): Observable<Post> {
     return this.http.post<Post>(`${this.apiUrl}/${postId}/comments`, commentContent);
   }
