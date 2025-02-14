@@ -4,6 +4,8 @@ import { BehaviorSubject, Observable, take, tap } from "rxjs";
 import { AccessToken } from "../models/accessToken.interface";
 import { LoginRequest } from "../models/loginRequest.interface";
 import { User } from "../models/user.interface";
+import { Message } from "../models/message.interface";
+import { RegisterRequest } from "../models/registerRequest.interface";
 
 @Injectable({
     providedIn: 'root'
@@ -22,6 +24,10 @@ export class AuthService {
                 this.setToken(response.accessToken)
             })
         );
+    }
+
+    register(registerRequest: RegisterRequest): Observable<Message> {
+        return this.http.post<Message>(`${this.apiUrl}/register`, registerRequest);
     }
 
     fetchUser(): void {
