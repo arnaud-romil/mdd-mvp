@@ -17,4 +17,8 @@ export class UserService {
         return this.http.post<User>(`${this.apiUrl}/me/topics/${topic.id}`, {});
     }
 
+    removeSubscription(topicId: number): Observable<User> {
+        return this.http.delete<User>(`${this.apiUrl}/me/topics/${topicId}`, {});
+    }
+
 }
