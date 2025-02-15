@@ -1,11 +1,11 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable, take, tap } from "rxjs";
-import { AccessToken } from "../models/accessToken.interface";
-import { LoginRequest } from "../models/loginRequest.interface";
+import { AccessToken } from "../models/access-token.interface";
+import { LoginRequest } from "../models/login-request.interface";
 import { User } from "../models/user.interface";
 import { Message } from "../models/message.interface";
-import { RegisterRequest } from "../models/registerRequest.interface";
+import { RegisterRequest } from "../models/register-request.interface";
 import { ProfileUpdateRequest } from "../models/profile-update-request.interface";
 
 @Injectable({
@@ -18,7 +18,7 @@ export class AuthService {
     constructor(private readonly http: HttpClient) { }
 
     login(credentials: LoginRequest): Observable<AccessToken> {
-        return this.http.post<AccessToken>(`${this.apiUrl}/login`, credentials).pipe(
+        return this.http.post<AccessToken>(`${this.apiUrl}/login`, credentials, { withCredentials: true }).pipe(
             tap(response => {
                 this.setToken(response.accessToken)
             })

@@ -1,0 +1,11 @@
+<header *ngIf="showHeader">
+    <div class="container">
+        <div class="logo">🚀 DevNetwork</div>
+
+        <nav *ngIf="showLinks">
+            <a routerLink="/feed">📰 Articles</a>
+            <a routerLink="/topics">📂 Thèmes</a>
+            <a routerLink="/profile">👤 Profil</a>
+        </nav>
+    </div>
+</header>

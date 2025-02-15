@@ -26,7 +26,7 @@ public class RefreshTokenService {
   private boolean secureCookie;
 
   private static final String COOKIE_NAME = "refreshToken";
-  private static final String COOKIE_PATH = "/auth/refresh-token";
+  private static final String COOKIE_PATH = "/";
 
   private final RefreshTokenRepository refreshTokenRepository;
   private final JwtUtil jwtUtil;
@@ -66,11 +66,14 @@ public class RefreshTokenService {
       refreshTokenRepository.deleteById(refreshToken.getId());
     }
 
-    Cookie refreshTokenCookie = new Cookie(COOKIE_NAME, null);
+    Cookie refreshTokenCookie = new Cookie(COOKIE_NAME, "");
     refreshTokenCookie.setHttpOnly(true);
     refreshTokenCookie.setSecure(secureCookie);
     refreshTokenCookie.setPath(COOKIE_PATH);
     refreshTokenCookie.setMaxAge(0);
+    if (secureCookie) {
+      refreshTokenCookie.setAttribute("SameSite", "None");
+    }
 
     return refreshTokenCookie;
   }
@@ -85,6 +88,9 @@ public class RefreshTokenService {
     refreshTokenCookie.setSecure(secureCookie);
     refreshTokenCookie.setPath(COOKIE_PATH);
     refreshTokenCookie.setMaxAge(refreshTokenValidity);
+    if (secureCookie) {
+      refreshTokenCookie.setAttribute("SameSite", "None");
+    }
 
     return refreshTokenCookie;
   }
