@@ -1,12 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { AuthService } from '../../core/auth.service';
 import { Router } from '@angular/router';
 import { take } from 'rxjs';
-import { NgIf } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 
 @Component({
@@ -15,12 +13,13 @@ import { MatButtonModule } from '@angular/material/button';
   imports: [
     MatInputModule,
     MatButtonModule,
-    MatCardModule,
     MatFormFieldModule,
-    ReactiveFormsModule,
-    NgIf],
+    ReactiveFormsModule
+  ],
   templateUrl: './login.component.html',
-  styleUrl: './login.component.css'
+  styleUrl: './login.component.scss',
+  encapsulation: ViewEncapsulation.None
+
 })
 export class LoginComponent {
 
@@ -46,6 +45,10 @@ export class LoginComponent {
         }
       });
     }
+  }
+
+  goBack(): void {
+    this.router.navigate(['/']);
   }
 
 }
