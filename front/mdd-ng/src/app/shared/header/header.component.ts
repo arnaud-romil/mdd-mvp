@@ -49,6 +49,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.showHeader = !hiddenRoutes.includes(currentRoute);
     this.showLinks = this.showHeader && (!noLinksRoutes.includes(currentRoute));
 
+    this.showHeader = this.isMobile && noLinksRoutes.includes(currentRoute) ? false : this.showHeader;
   }
 
   @HostListener('window:resize', [])

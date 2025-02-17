@@ -6,33 +6,40 @@
 }
 
 .home__logo {
-    width: 275px;
-    margin: 60px 0px 60px 0px;
+    width: 14rem;
+    height: 8.13rem;
+    margin: 3.63rem 0rem 3.38rem 0rem;
 }
 
 .home__buttons {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    width: 200px;
-    height: 130px;
+    width: 9.75rem;
+    height: 7.28rem;
 }
 
 .home__buttons>button {
     background-color: #ffffff;
-    border-radius: 10px;
+    border-radius: 8px;
     border: 1px solid #000000;
+    color: #000000;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.18rem;
 }
 
 @media (min-width: 768px) {
 
     .home__logo {
-        width: 412px;
-        margin: 85px 0px 85px 0px;
+        width: 25.75rem;
+        height: 14.88rem;
+        margin: 5.44rem 0rem 2.75rem 0rem;
     }
 
     .home__buttons {
-        width: 500px;
+        width: 23.56rem;
+        height: 2.5rem;
         display: flex;
         flex-direction: row;
         justify-content: space-around;
