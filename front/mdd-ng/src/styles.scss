@@ -12,3 +12,20 @@
     margin-left: 6rem;
     position: relative;
 }
+
+.mat-mdc-card-title {
+    font-family: "Inter", sans-serif !important;
+    font-size: 1rem !important;
+    font-weight: 700 !important;
+    line-height: 1.21rem !important;
+}
+
+.mat-mdc-card-content {
+    margin: 0.5rem 0rem 0rem 0rem;
+    padding: 0rem;
+    color: #000000;
+    font-weight: 400;
+    font-size: 0.87rem;
+    line-height: 1.06rem;
+    overflow: hidden;
+}

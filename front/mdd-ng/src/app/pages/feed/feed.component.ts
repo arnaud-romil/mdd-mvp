@@ -11,7 +11,7 @@ import { take } from 'rxjs';
   standalone: true,
   imports: [CommonModule, MatCardModule, RouterModule],
   templateUrl: './feed.component.html',
-  styleUrl: './feed.component.css'
+  styleUrl: './feed.component.scss'
 })
 export class FeedComponent implements OnInit {
 
