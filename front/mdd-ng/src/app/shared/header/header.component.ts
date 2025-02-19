@@ -1,17 +1,21 @@
 import { CommonModule } from '@angular/common';
-import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
-import { NavigationEnd, Router, RouterLink } from '@angular/router';
+import { Component, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { NavigationEnd, Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { MatSidenav, MatSidenavModule } from '@angular/material/sidenav';
+import { MatListModule } from '@angular/material/list';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [CommonModule, MatButtonModule, RouterLink],
+  imports: [CommonModule, RouterLink, RouterLinkActive, MatSidenavModule, MatListModule, MatIconModule],
   templateUrl: './header.component.html',
-  styleUrl: './header.component.css'
+  styleUrl: './header.component.css',
 })
 export class HeaderComponent implements OnInit, OnDestroy {
+
+  @ViewChild('sidenav') sidenav!: MatSidenav;
 
   showHeader: boolean = false;
   showLinks: boolean = false;
@@ -24,8 +28,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
 
-    this.updateHeader(this.router.url);
     this.updateIsMobile();
+    this.updateHeader(this.router.url);
 
     this.routeSub = this.router.events.subscribe(
       event => {
@@ -43,13 +47,15 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   updateHeader(currentRoute: string) {
-    const hiddenRoutes = ['/'];
-    const noLinksRoutes = ['/login', '/register'];
+    const specialRoutes = ['/login', '/register'];
 
-    this.showHeader = !hiddenRoutes.includes(currentRoute);
-    this.showLinks = this.showHeader && (!noLinksRoutes.includes(currentRoute));
+    console.log(`isMobile: ${this.isMobile}`);
 
-    this.showHeader = this.isMobile && noLinksRoutes.includes(currentRoute) ? false : this.showHeader;
+    this.showHeader = !this.isHomePage(currentRoute) && !(this.isMobile &&
+      specialRoutes.includes(currentRoute));
+
+    this.showLinks = this.showHeader && !specialRoutes.includes(currentRoute) &&
+      !this.isMobile;
   }
 
   @HostListener('window:resize', [])
@@ -58,4 +64,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.updateHeader(this.router.url);
   }
 
+  toggleSidenav() {
+    this.sidenav.toggle();
+  }
+
+  private isHomePage(currentRoute: string): boolean {
+    return currentRoute === '/';
+  }
 }

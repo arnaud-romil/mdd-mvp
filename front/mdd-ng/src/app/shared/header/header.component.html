@@ -2,10 +2,28 @@
     <div class="header">
         <img src="img/logo_p6.png" alt="Logo MDD" class="header__logo" />
 
-        <nav *ngIf="showLinks">
-            <a routerLink="/feed">📰 Articles</a>
-            <a routerLink="/topics">📂 Thèmes</a>
-            <a routerLink="/profile">👤 Profil</a>
+        <nav *ngIf="showLinks" class="desktop-links">
+            <a routerLink="/feed" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Articles</a>
+            <a routerLink="/topics" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Thèmes</a>
         </nav>
+
+        <a *ngIf="showLinks" routerLink="/profile" class="user-profile"><img src="img/user.svg"
+                alt="User profile" /></a>
+
+        <button *ngIf="isMobile" class="burger-menu" (click)="toggleSidenav()">
+            <img src="img/hamburger_menu.svg" alt="Burger menu" />
+        </button>
     </div>
 </header>
+
+
+<mat-sidenav-container class="overlay-container" [class.overlay-active]="sidenav?.opened">
+    <mat-sidenav #sidenav mode="over" position="end" hasBackdrop="true" class="sidenav-panel"
+        (backdropClick)="sidenav.close()">
+
+        <a routerLink="/feed" (click)="sidenav.close()">Articles</a>
+        <a routerLink="/topics" (click)="sidenav.close()">Thèmes</a>
+        <a routerLink="/profile" (click)="sidenav.close()"><img src="img/user.svg" alt="User profile" /></a>
+
+    </mat-sidenav>
+</mat-sidenav-container>
