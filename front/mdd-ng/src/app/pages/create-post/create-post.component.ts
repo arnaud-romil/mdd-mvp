@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TopicService } from '../../core/topic.service';
 import { PostService } from '../../core/post.service';
@@ -8,14 +8,14 @@ import { take } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-create-post',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, MatInputModule, MatSelectModule, MatButtonModule],
+  imports: [CommonModule, ReactiveFormsModule, MatInputModule, MatSelectModule],
   templateUrl: './create-post.component.html',
-  styleUrl: './create-post.component.css'
+  styleUrl: './create-post.component.scss',
+  encapsulation: ViewEncapsulation.None
 })
 export class CreatePostComponent implements OnInit {
 
@@ -50,8 +50,12 @@ export class CreatePostComponent implements OnInit {
     if (this.postForm.valid) {
       this.postService.createPost(this.postForm.value).pipe(take(1))
         .subscribe(() => {
-          this.router.navigate(['/feed']);
+          this.goBack()
         });
     }
+  }
+
+  goBack(): void {
+    this.router.navigate(['/feed']);
   }
 }

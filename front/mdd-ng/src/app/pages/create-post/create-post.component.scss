@@ -1,0 +1,96 @@
+.create-post-container {
+    width: 90%;
+    margin: auto;
+    height: 100vh;
+    background: #ffffff;
+}
+
+.create-post__back {
+    width: 90%;
+    margin: auto;
+    height: 5.38rem;
+    display: flex;
+    align-items: center;
+}
+
+.back-button {
+    background: none;
+    border: none;
+    display: block;
+
+}
+
+.create-post__title {
+    font-weight: 700;
+    font-size: 1.5rem;
+    text-align: center;
+    line-height: 1.82rem;
+    margin-bottom: 0.88rem;
+}
+
+.create-post__form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.mat-mdc-form-field {
+    width: 100%;
+}
+
+.mat-mdc-text-field-wrapper {
+    background-color: #ffffff !important;
+    border: 2px solid #7763c5;
+    border-radius: 0.5rem !important;
+    color: #000000 !important;
+}
+
+.mdc-floating-label {
+    color: lightgray !important;
+}
+
+div.mat-mdc-select-panel {
+    background-color: #ffffff !important;
+}
+
+.mat-mdc-option.mdc-list-item {
+    color: #000000 !important;
+}
+
+.mat-mdc-select-value {
+    color: #000000 !important;
+}
+
+.mdc-text-field__input {
+    color: #000000 !important;
+    caret-color: transparent !important;
+}
+
+.create-post__button {
+    width: 8.69rem;
+    height: 2.5rem;
+    margin-top: 1.25rem;
+    border-radius: 0.5rem;
+    background-color: #7763c5 !important;
+    color: #ffffff !important;
+    font-weight: 600;
+    font-size: 1rem;
+    line-height: 1.21rem;
+    border: none;
+}
+
+.create-post__button--disabled {
+    opacity: 0.5;
+}
+
+@media (min-width: 768px) {
+
+    .create-post-container {
+        width: 33%;
+    }
+
+    .create-post__back {
+        height: 5.38rem;
+    }
+
+}

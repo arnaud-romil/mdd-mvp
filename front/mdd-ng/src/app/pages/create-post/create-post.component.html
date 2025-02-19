@@ -1,17 +1,17 @@
+<div class="create-post__back">
+    <button (click)="goBack()" class="back-button">
+        <img src="img/back_arrow.svg" alt="Back Arrow" class="back-arrow" />
+    </button>
+</div>
+
 <div class="create-post-container">
-    <h2>📝 Créer un Article</h2>
 
-    <form [formGroup]="postForm" (ngSubmit)="submitPost()">
-        <mat-form-field class="full-width">
-            <mat-label>Titre</mat-label>
-            <input matInput formControlName="title" />
-            <mat-error *ngIf="postForm.controls['title'].invalid && postForm.controls['title'].touched">
-                Le titre doit comporter au moins 5 caractères
-            </mat-error>
-        </mat-form-field>
+    <h2 class="create-post__title">Créer un nouvel article</h2>
 
-        <mat-form-field class="full-width">
-            <mat-label>Thème</mat-label>
+    <form [formGroup]="postForm" (ngSubmit)="submitPost()" class="create-post__form">
+
+        <mat-form-field>
+            <mat-label>Sélectionner un thème</mat-label>
             <mat-select formControlName="topicId">
                 <mat-option *ngFor="let topic of topics" [value]="topic.id">
                     {{ topic.title }}
@@ -19,16 +19,19 @@
             </mat-select>
         </mat-form-field>
 
-        <mat-form-field class="full-width">
-            <mat-label>Contenu</mat-label>
-            <textarea matInput formControlName="content" rows="6"></textarea>
-            <mat-error *ngIf="postForm.controls['content'].invalid && postForm.controls['content'].touched">
-                Le contenu doit comporter au moins 20 caractères
-            </mat-error>
+        <mat-form-field>
+            <mat-label>Titre de l'article</mat-label>
+            <input matInput formControlName="title" />
         </mat-form-field>
 
-        <button mat-raised-button color="primary" type="submit" [disabled]="postForm.invalid">
-            📢 Publier
+        <mat-form-field>
+            <mat-label>Contenu de l'article</mat-label>
+            <textarea matInput formControlName="content" rows="6"></textarea>
+        </mat-form-field>
+
+        <button type="submit" [disabled]="postForm.invalid" class="create-post__button"
+            [ngClass]="{ 'create-post__button--disabled': postForm.invalid}">
+            Créer
         </button>
     </form>
 </div>
