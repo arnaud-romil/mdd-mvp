@@ -1,30 +1,48 @@
 <div class="profile-container">
-    <h2>👤 Mon Profil</h2>
 
-    <form [formGroup]="profileForm" (ngSubmit)="saveProfile()">
-        <mat-form-field class="full-width">
-            <mat-label>Nom d'utilisateur</mat-label>
-            <input matInput formControlName="username" />
-        </mat-form-field>
+    <div class="user-profile-info">
 
-        <mat-form-field class="full-width">
-            <mat-label>Email</mat-label>
-            <input matInput type="email" formControlName="email" />
-        </mat-form-field>
+        <h2 class="profile-title">Profil utilisateur</h2>
 
-        <button mat-raised-button color="primary" type="submit" [disabled]="profileForm.invalid">
-            💾 Enregistrer
-        </button>
-    </form>
+        <form [formGroup]="profileForm" (ngSubmit)="saveProfile()" class="profile-form">
+            <mat-form-field>
+                <input matInput formControlName="username" />
+            </mat-form-field>
 
-    <h3>📜 Thèmes abonnés</h3>
-    <div *ngIf="subscribedTopics.length === 0">Vous n'êtes abonné à aucun thème.</div>
-    <ul>
-        <li *ngFor="let topic of subscribedTopics">
-            {{ topic.title }}
-            <button mat-button color="warn" (click)="unsubscribeTopic(topic.id)">Se désabonner</button>
-        </li>
-    </ul>
+            <mat-form-field>
+                <input matInput type="email" formControlName="email" />
+            </mat-form-field>
 
-    <button mat-raised-button color="warn" (click)="logout()">🚪 Déconnexion</button>
+            <button type="submit" [disabled]="profileForm.invalid" class="save-profile">
+                Sauvegarder
+            </button>
+        </form>
+
+        <button mat-raised-button (click)="logout()" class="logout-button">Se déconnecter</button>
+
+    </div>
+
+    <hr>
+
+    <h2 class="subscriptions-title">Abonnements</h2>
+
+    <div class="user-subscriptions">
+
+        <div *ngIf="subscribedTopics.length === 0">Vous n'êtes abonné à aucun thème.</div>
+
+        <mat-card *ngFor="let topic of subscribedTopics" class="topic-card">
+            <mat-card-header>
+                <mat-card-title>{{ topic.title }}</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+                <p>Description: {{ topic.description }}</p>
+            </mat-card-content>
+            <mat-card-actions>
+                <button (click)="unsubscribeTopic(topic.id)" class="unsubscribe-btn">
+                    Se désabonner
+                </button>
+            </mat-card-actions>
+        </mat-card>
+    </div>
+
 </div>

@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { Topic } from '../../models/topic.interface';
 import { AuthService } from '../../core/auth.service';
@@ -9,13 +8,15 @@ import { UserService } from '../../core/user.service';
 import { TopicService } from '../../core/topic.service';
 import { Router } from '@angular/router';
 import { take } from 'rxjs';
+import { MatCardModule } from '@angular/material/card';
 
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, MatInputModule, MatButtonModule],
+  imports: [CommonModule, ReactiveFormsModule, MatInputModule, MatCardModule],
   templateUrl: './profile.component.html',
-  styleUrl: './profile.component.css'
+  styleUrl: './profile.component.scss',
+  encapsulation: ViewEncapsulation.None
 })
 export class ProfileComponent implements OnInit {
 
