@@ -1,16 +1,45 @@
-<div class="post-container" *ngIf="post">
-    <mat-card class="post-card">
-        <mat-card-header>
-            <mat-card-title>{{ post.title }}</mat-card-title>
-            <mat-card-subtitle>Par {{ post.author }} - {{ post.createdAt | date:'short' }}</mat-card-subtitle>
-        </mat-card-header>
-        <mat-card-content>
-            <p>{{ post.content }}</p>
-        </mat-card-content>
-    </mat-card>
+<div class="post-detail-container" *ngIf="post">
 
-    <!-- Section des commentaires -->
+    <div class="post-container">
 
-    <app-comment-list [post]="post"></app-comment-list>
+        <div class="post-title-container">
+            <button (click)="goBack()" class="back-button">
+                <img src="img/back_arrow.svg" alt="Back Arrow" class="back-arrow" />
+            </button>
+
+            <h2 class="post-title">{{ post.title}}</h2>
+        </div>
+        <div class="post-info">
+            <span>{{post.createdAt | date:'dd/MM/yyyy'}}</span>
+            <span>{{ post.author }}</span>
+            <span>{{ post.topic }}</span>
+        </div>
+
+        <p class="post-content">
+            {{ post.content }}
+        </p>
+
+        <hr class="divider" />
+
+    </div>
+
+    <div class="comment-section">
+        <h3 class="comments-title">Commentaires</h3>
+
+        <div *ngFor="let comment of post.comments" class="comment">
+            <p>{{ comment.content }}</p>
+            <span>{{ comment.author }}</span>
+        </div>
+    </div>
+
+
+    <div class="add-comment-section">
+        <mat-form-field class="comment-input">
+            <textarea matInput [(ngModel)]="newComment" placeholder="Écrivez ici votre commentaire" rows="3"></textarea>
+            <button (click)="addComment()" class="send-button">
+                <img src="img/icon_send.svg" alt="send comment icon" class="send-icon" />
+            </button>
+        </mat-form-field>
+    </div>
 
 </div>
