@@ -6,7 +6,43 @@
     font-family: "Inter", sans-serif;
 }
 
+// Colors
+
+$custom-purple: #7763c5;
+
+// Buttons
+
+@mixin button-style {
+    height: 2.5rem;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    line-height: 1.21rem;
+    letter-spacing: 0%;
+    text-align: center;
+}
+
+.primary-button {
+    @include button-style();
+    color: white;
+    font-weight: 700;
+    background-color: $custom-purple;
+    border: none;
+}
+
+.secondary-button {
+    @include button-style();
+    color: black;
+    font-weight: 600;
+    background-color: white;
+    border: 1px solid black;
+}
+
+.button--disabled {
+    opacity: 0.5;
+}
+
 // Login and Register
+
 .logo-title-container {
     width: 100%;
     display: flex;

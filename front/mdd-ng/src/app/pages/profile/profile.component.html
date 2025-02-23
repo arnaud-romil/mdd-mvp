@@ -13,7 +13,7 @@
                 <input type="email" formControlName="email" class="custom-form-field-border" />
             </div>
 
-            <button type="submit" [disabled]="profileForm.invalid" class="save-profile">
+            <button type="submit" [disabled]="profileForm.invalid" class="save-profile primary-button">
                 Sauvegarder
             </button>
         </form>
@@ -38,7 +38,7 @@
                 <p>{{ topic.description }}</p>
             </div>
             <div class="card-actions">
-                <button (click)="unsubscribeTopic(topic.id)" class="unsubscribe-btn">
+                <button (click)="unsubscribeTopic(topic.id)" class="unsubscribe-btn primary-button">
                     Se désabonner
                 </button>
             </div>

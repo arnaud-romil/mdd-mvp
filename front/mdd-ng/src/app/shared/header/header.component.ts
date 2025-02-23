@@ -48,8 +48,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
   updateHeader(currentRoute: string) {
     const specialRoutes = ['/login', '/register'];
 
-    console.log(`isMobile: ${this.isMobile}`);
-
     this.showHeader = !this.isHomePage(currentRoute) && !(this.isMobile &&
       specialRoutes.includes(currentRoute));
 

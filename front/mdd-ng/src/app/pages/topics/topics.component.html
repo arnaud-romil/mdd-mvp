@@ -7,8 +7,8 @@
             <p>{{ topic.description }}</p>
         </div>
         <div class="card-actions">
-            <button [disabled]="topic.subscribed" (click)="subscribe(topic)" class="subscribe-btn"
-                [ngClass]="{ 'subscribed': topic.subscribed }">
+            <button [disabled]="topic.subscribed" (click)="subscribe(topic)" class="subscribe-btn primary-button"
+                [ngClass]="{ 'button--disabled': topic.subscribed }">
                 {{ topic.subscribed ? 'Abonné' : 'S’abonner' }}
             </button>
         </div>

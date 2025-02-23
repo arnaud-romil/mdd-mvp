@@ -36,20 +36,10 @@
 
 .create-post__button {
     width: 8.69rem;
-    height: 2.5rem;
     margin-top: 1.25rem;
-    border-radius: 0.5rem;
-    background-color: #7763c5 !important;
-    color: #ffffff !important;
-    font-weight: 600;
-    font-size: 1rem;
-    line-height: 1.21rem;
-    border: none;
 }
 
-.create-post__button--disabled {
-    opacity: 0.5;
-}
+
 
 @media (min-width: 768px) {
 
