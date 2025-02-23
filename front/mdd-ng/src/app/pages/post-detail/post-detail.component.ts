@@ -1,19 +1,17 @@
 import { CommonModule, DatePipe } from '@angular/common';
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Post } from '../../models/post.interface';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PostService } from '../../core/post.service';
 import { take } from 'rxjs';
 import { FormsModule } from '@angular/forms';
-import { MatInputModule } from '@angular/material/input';
 
 @Component({
   selector: 'app-post-detail',
   standalone: true,
-  imports: [CommonModule, DatePipe, FormsModule, MatInputModule],
+  imports: [CommonModule, DatePipe, FormsModule],
   templateUrl: './post-detail.component.html',
-  styleUrl: './post-detail.component.scss',
-  encapsulation: ViewEncapsulation.None
+  styleUrl: './post-detail.component.scss'
 })
 export class PostDetailComponent implements OnInit {
 

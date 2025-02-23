@@ -6,26 +6,53 @@
     font-family: "Inter", sans-serif;
 }
 
-.mat-drawer-inner-container {
-    width: 5.5rem !important;
-    height: 100vh;
-    margin-left: 6rem;
-    position: relative;
+// Login and Register
+.logo-title-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 40px;
 }
 
-.mat-mdc-card-title {
-    font-family: "Inter", sans-serif !important;
-    font-size: 1rem !important;
-    font-weight: 700 !important;
-    line-height: 1.21rem !important;
+.mobile-logo {
+    width: 14rem;
+    height: 8.13rem;
 }
 
-.mat-mdc-card-content {
-    margin: 0.5rem 0rem 0rem 0rem;
-    padding: 0rem;
-    color: #000000;
-    font-weight: 400;
-    font-size: 0.87rem;
-    line-height: 1.06rem;
-    overflow: hidden;
+// Forms
+
+.form-field {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1rem;
+}
+
+.form-field input {
+    width: 15.62rem;
+    height: 3.13rem;
+    border: 1px solid #000000;
+    border-radius: 0.5rem;
+    padding: 1rem;
+}
+
+.form-field select {
+    width: 15.62rem;
+    height: 3.13rem;
+    border: 1px solid #000000;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    appearance: none;
+}
+
+.form-field textarea {
+    width: 15.62rem;
+    height: 13.25rem;
+    border: 1px solid #000000;
+    padding: 1rem;
+    border-radius: 0.5rem;
+}
+
+.custom-form-field-border {
+    border: 2px solid #7763c5 !important;
 }

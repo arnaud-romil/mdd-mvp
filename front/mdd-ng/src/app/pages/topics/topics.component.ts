@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { TopicService } from '../../core/topic.service';
 import { AsyncPipe, CommonModule } from '@angular/common';
-import { MatCardModule } from '@angular/material/card';
 import { Topic } from '../../models/topic.interface';
 import { UserService } from '../../core/user.service';
 import { take } from 'rxjs';
@@ -10,7 +9,7 @@ import { take } from 'rxjs';
 @Component({
   selector: 'app-topics',
   standalone: true,
-  imports: [CommonModule, MatCardModule, AsyncPipe],
+  imports: [CommonModule, AsyncPipe],
   templateUrl: './topics.component.html',
   styleUrl: './topics.component.scss'
 })

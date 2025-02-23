@@ -1,8 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
-import { MatInputModule } from '@angular/material/input';
 import { AuthService } from '../../core/auth.service';
 import { Router } from '@angular/router';
 
@@ -11,13 +9,10 @@ import { Router } from '@angular/router';
   standalone: true,
   imports: [
     CommonModule,
-    ReactiveFormsModule,
-    MatInputModule,
-    MatButtonModule
+    ReactiveFormsModule
   ],
   templateUrl: './register.component.html',
-  styleUrl: './register.component.scss',
-  encapsulation: ViewEncapsulation.None
+  styleUrl: './register.component.scss'
 })
 export class RegisterComponent implements OnInit {
 

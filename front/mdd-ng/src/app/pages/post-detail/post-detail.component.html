@@ -34,12 +34,12 @@
 
 
     <div class="add-comment-section">
-        <mat-form-field class="comment-input">
-            <textarea matInput [(ngModel)]="newComment" placeholder="Écrivez ici votre commentaire" rows="3"></textarea>
+        <div class="comment-input">
+            <textarea [(ngModel)]="newComment" placeholder="Écrivez ici votre commentaire" rows="3"></textarea>
             <button (click)="addComment()" class="send-button">
                 <img src="img/icon_send.svg" alt="send comment icon" class="send-icon" />
             </button>
-        </mat-form-field>
+        </div>
     </div>
 
 </div>

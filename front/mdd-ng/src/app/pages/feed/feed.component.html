@@ -8,19 +8,19 @@
     </div>
 
     <div class="posts">
-        <mat-card *ngFor="let post of posts" class="post-card">
-            <mat-card-header>
+        <div *ngFor="let post of posts" class="post-card">
+            <div class="card-header">
                 <a [routerLink]="['/posts', post.id]" class="post-link">
-                    <mat-card-title>{{ post.title }}</mat-card-title>
+                    <div class="card-title">{{ post.title }}</div>
                 </a>
-                <mat-card-subtitle>
-                    <p>Date: {{ post.createdAt | date:'dd/MM/yyyy' }}</p>
-                    <p>Auteur: {{ post.author }}</p>
-                </mat-card-subtitle>
-            </mat-card-header>
-            <mat-card-content>
-                <p>Content: {{ post.content }}</p>
-            </mat-card-content>
-        </mat-card>
+                <div class="card-subtitle">
+                    <p>{{ post.createdAt | date:'dd/MM/yyyy' }}</p>
+                    <p>{{ post.author }}</p>
+                </div>
+            </div>
+            <div class="card-content">
+                <p>{{ post.content }}</p>
+            </div>
+        </div>
     </div>
 </div>

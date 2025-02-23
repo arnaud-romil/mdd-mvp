@@ -1,16 +1,16 @@
 <div class="topics-container">
-    <mat-card *ngFor="let topic of topics$ | async" class="topic-card">
-        <mat-card-header>
-            <mat-card-title>{{ topic.title }}</mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-            <p>Description: {{ topic.description }}</p>
-        </mat-card-content>
-        <mat-card-actions>
+    <div *ngFor="let topic of topics$ | async" class="topic-card">
+        <div class="card-header">
+            <div class="card-title">{{ topic.title }}</div>
+        </div>
+        <div class="card-content">
+            <p>{{ topic.description }}</p>
+        </div>
+        <div class="card-actions">
             <button [disabled]="topic.subscribed" (click)="subscribe(topic)" class="subscribe-btn"
                 [ngClass]="{ 'subscribed': topic.subscribed }">
                 {{ topic.subscribed ? 'Abonné' : 'S’abonner' }}
             </button>
-        </mat-card-actions>
-    </mat-card>
+        </div>
+    </div>
 </div>

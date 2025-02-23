@@ -1,7 +1,7 @@
 .create-post-container {
     width: 90%;
     margin: auto;
-    height: 100vh;
+    height: calc(100vh - 3.88rem);
     background: #ffffff;
 }
 
@@ -34,38 +34,6 @@
     align-items: center;
 }
 
-.mat-mdc-form-field {
-    width: 100%;
-}
-
-.mat-mdc-text-field-wrapper {
-    background-color: #ffffff !important;
-    border: 2px solid #7763c5;
-    border-radius: 0.5rem !important;
-    color: #000000 !important;
-}
-
-.mdc-floating-label {
-    color: lightgray !important;
-}
-
-div.mat-mdc-select-panel {
-    background-color: #ffffff !important;
-}
-
-.mat-mdc-option.mdc-list-item {
-    color: #000000 !important;
-}
-
-.mat-mdc-select-value {
-    color: #000000 !important;
-}
-
-.mdc-text-field__input {
-    color: #000000 !important;
-    caret-color: transparent !important;
-}
-
 .create-post__button {
     width: 8.69rem;
     height: 2.5rem;
@@ -87,10 +55,10 @@ div.mat-mdc-select-panel {
 
     .create-post-container {
         width: 33%;
+        height: calc(100vh - 5.88rem);
     }
 
     .create-post__back {
         height: 5.38rem;
     }
-
 }

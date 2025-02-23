@@ -10,26 +10,25 @@
 
     <form [formGroup]="postForm" (ngSubmit)="submitPost()" class="create-post__form">
 
-        <mat-form-field>
-            <mat-label>Sélectionner un thème</mat-label>
-            <mat-select formControlName="topicId">
-                <mat-option *ngFor="let topic of topics" [value]="topic.id">
+        <div class="form-field">
+            <select formControlName="topicId" class="custom-form-field-border">
+                <option value="" disabled selected>Sélectionner un thème</option>
+                <option *ngFor="let topic of topics" [value]="topic.id">
                     {{ topic.title }}
-                </mat-option>
-            </mat-select>
-        </mat-form-field>
+                </option>
+            </select>
+        </div>
 
-        <mat-form-field>
-            <mat-label>Titre de l'article</mat-label>
-            <input matInput formControlName="title" />
-        </mat-form-field>
+        <div class="form-field">
+            <input formControlName="title" placeholder="Titre de l'article" class="custom-form-field-border" />
+        </div>
 
-        <mat-form-field>
-            <mat-label>Contenu de l'article</mat-label>
-            <textarea matInput formControlName="content" rows="6"></textarea>
-        </mat-form-field>
+        <div class="form-field">
+            <textarea formControlName="content" rows="6" placeholder="Contenu de l'article"
+                class="custom-form-field-border"></textarea>
+        </div>
 
-        <button type="submit" [disabled]="postForm.invalid" class="create-post__button"
+        <button type=" submit" [disabled]="postForm.invalid" class="create-post__button"
             [ngClass]="{ 'create-post__button--disabled': postForm.invalid}">
             Créer
         </button>

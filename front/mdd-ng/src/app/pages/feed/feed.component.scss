@@ -41,33 +41,32 @@
 
 .post-card {
     width: 16.56rem;
-    height: 8.5rem;
+    height: 8.25rem;
     padding: 0.5rem 0.75rem 0.5rem 0.75rem;
     background-color: #f5f5f5;
     border-radius: 0.5rem;
+    overflow: hidden;
 }
 
-.mat-mdc-card-header {
+.card-header {
     padding: 0rem;
     display: flex;
-    flex-direction: column-reverse;
-
+    flex-direction: column;
 }
 
-.mat-mdc-card-title {
-    font-family: "Inter", sans-serif !important;
-    font-size: 1rem !important;
-    font-weight: 700 !important;
-    line-height: 1.21rem !important;
+.card-title {
+    font-size: 1rem;
+    font-weight: 700;
+    line-height: 1.21rem;
 }
 
-.mat-mdc-card-subtitle {
+.card-subtitle {
     margin-top: 0.5rem;
     display: flex;
     flex-direction: row;
 }
 
-.mat-mdc-card-subtitle p {
+.card-subtitle p {
     color: #000000;
     font-weight: 400;
     font-size: 0.87rem;
@@ -75,7 +74,7 @@
     margin-right: 1rem;
 }
 
-.mat-mdc-card-content {
+.card-content {
     margin: 0.5rem 0rem 0rem 0rem;
     padding: 0rem;
     color: #000000;

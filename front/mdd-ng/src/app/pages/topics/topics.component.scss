@@ -5,15 +5,17 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-
 }
 
 .topic-card {
     width: 16.56rem;
     height: 11.31rem;
+    padding: 0.5rem 0.75rem 0.5rem 0.75rem;
     background-color: #f5f5f5;
     border-radius: 0.5rem;
     margin: 0.6rem;
+    overflow: hidden;
+    position: relative;
 }
 
 .topic-card:hover {
@@ -39,9 +41,31 @@
     opacity: 0.5;
 }
 
-.mat-mdc-card-actions {
+.card-header {
+    padding: 0rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.card-title {
+    font-size: 1rem;
+    font-weight: 700;
+    line-height: 1.21rem;
+}
+
+.card-content {
+    margin: 0.5rem 0rem 0rem 0rem;
+    padding: 0rem;
+    color: #000000;
+    font-weight: 400;
+    font-size: 0.87rem;
+    line-height: 1.06rem;
+    overflow: hidden;
+}
+
+.card-actions {
     position: absolute;
-    bottom: 0;
+    bottom: 0.75rem;
     left: 50%;
     transform: translateX(-50%);
 }

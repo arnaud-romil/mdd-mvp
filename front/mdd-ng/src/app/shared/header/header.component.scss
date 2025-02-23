@@ -81,6 +81,13 @@
     color: #6c5ccf !important;
 }
 
+::ng-deep .mat-drawer-inner-container {
+    width: 5.5rem !important;
+    height: 100vh;
+    margin-left: 6rem;
+    position: relative;
+}
+
 @media (min-width: 768px) {
     .header {
         width: 100%;
