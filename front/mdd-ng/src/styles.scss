@@ -103,7 +103,6 @@ $comment-background-color: #eeeeee;
 }
 
 
-
 // Forms
 
 .form-field {
@@ -113,30 +112,56 @@ $comment-background-color: #eeeeee;
 }
 
 .form-field input {
-    width: 15.62rem;
-    height: 3.13rem;
-    border: 1px solid #000000;
     border-radius: 0.5rem;
     padding: 1rem;
+    color: black;
+    font-weight: 400;
+    font-size: 0.875rem;
+    line-height: 1.06rem;
+    letter-spacing: 0%;
 }
 
-.form-field select {
-    width: 15.62rem;
-    height: 3.13rem;
-    border: 1px solid #000000;
-    border-radius: 0.5rem;
+.form-field input::placeholder {
+    color: #000000;
+    opacity: 1;
+}
+
+.primary-input {
+    width: 15.625rem;
+    height: 3rem;
+    border: 2px solid $custom-purple;
+}
+
+.secondary-input {
+    width: 15.625rem;
+    height: 3.125rem;
+    border: 1px solid black;
+}
+
+textarea {
     padding: 1rem;
-    appearance: none;
+    border-radius: 0.5rem;
+    font-weight: 400;
+    font-size: 0.875rem;
+    line-height: 1.06rem;
+    letter-spacing: 0%;
 }
 
-.form-field textarea {
-    width: 15.62rem;
+textarea::placeholder {
+    color: #000000;
+    opacity: 1;
+}
+
+.primary-textarea {
+    width: 15.625rem;
     height: 13.25rem;
-    border: 1px solid #000000;
-    padding: 1rem;
-    border-radius: 0.5rem;
+    border: 2px solid $custom-purple;
 }
 
-.custom-form-field-border {
-    border: 2px solid #7763c5 !important;
+@media (min-width: 768px) {
+
+    .primary-input,
+    .primary-textarea {
+        width: 17.563rem;
+    }
 }

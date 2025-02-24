@@ -32,14 +32,12 @@
         </div>
     </div>
 
-
-    <div class="add-comment-section">
-        <div class="comment-input">
-            <textarea [(ngModel)]="newComment" placeholder="Écrivez ici votre commentaire" rows="3"></textarea>
-            <button (click)="addComment()" class="send-button">
-                <img src="img/icon_send.svg" alt="send comment icon" class="send-icon" />
-            </button>
-        </div>
+    <div class="comment-input">
+        <textarea [(ngModel)]="newComment" placeholder="Écrivez ici votre commentaire" rows="3"></textarea>
+        <button (click)="addComment()" class="send-button">
+            <img src="img/icon_send.svg" alt="send comment icon" class="send-icon" />
+        </button>
     </div>
+
 
 </div>

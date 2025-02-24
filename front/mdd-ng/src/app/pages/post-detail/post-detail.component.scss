@@ -1,5 +1,4 @@
 .post-detail-container {
-    height: calc(100vh - 3.88rem);
     display: flex;
     flex-direction: column;
 }
@@ -86,12 +85,12 @@
     display: flex;
     justify-content: space-between;
     border-radius: 1rem;
+    margin-top: auto;
 }
 
 .comment-input textarea {
     width: 13.75rem;
     border: none;
-
 }
 
 .send-button {
@@ -102,10 +101,6 @@
 .send-icon {
     width: 2.69rem;
     height: 2.69rem;
-}
-
-.add-comment-section {
-    margin-top: auto;
 }
 
 
@@ -140,24 +135,18 @@
         padding: 1rem;
     }
 
-    .add-comment-section {
-        width: 36.2rem;
-        margin: auto auto 0 auto;
-    }
-
     .comment-input {
         width: 36.2rem;
-        margin-bottom: 0.5rem;
+        margin: auto auto 0.5rem auto;
     }
 
     .send-button {
         position: relative;
         left: 5rem;
-
     }
 
-    .mat-mdc-form-field-subscript-wrapper {
-        display: block;
+    .comment-input textarea {
+        width: 100%;
+        border: none;
     }
-
 }

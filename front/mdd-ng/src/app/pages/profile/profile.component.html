@@ -6,11 +6,11 @@
 
         <form [formGroup]="profileForm" (ngSubmit)="saveProfile()" class="profile-form">
             <div class="form-field">
-                <input formControlName="username" class="custom-form-field-border" />
+                <input formControlName="username" class="primary-input" />
             </div>
 
             <div class="form-field">
-                <input type="email" formControlName="email" class="custom-form-field-border" />
+                <input type="email" formControlName="email" class="primary-input" />
             </div>
 
             <button type="submit" [disabled]="profileForm.invalid" class="save-profile primary-button">

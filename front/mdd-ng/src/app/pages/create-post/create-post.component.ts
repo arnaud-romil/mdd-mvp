@@ -6,11 +6,12 @@ import { Router } from '@angular/router';
 import { Topic } from '../../models/topic.interface';
 import { take } from 'rxjs';
 import { CommonModule } from '@angular/common';
+import { MatSelectModule } from '@angular/material/select';
 
 @Component({
   selector: 'app-create-post',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, MatSelectModule],
   templateUrl: './create-post.component.html',
   styleUrl: './create-post.component.scss'
 })
