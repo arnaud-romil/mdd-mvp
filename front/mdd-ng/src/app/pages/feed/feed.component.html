@@ -1,25 +1,25 @@
 <div class="feed-container">
 
     <div class="actions">
-        <button routerLink="/create-post" class="create-post primary-button">
+        <button routerLink="/create-post" class="actions__create primary-button">
             Créer un article
         </button>
-        <p class="feed-sort">Trier par ↓</p>
+        <p class="actions__sort">Trier par ↓</p>
     </div>
 
     <div class="posts">
-        <div *ngFor="let post of posts" class="post-card">
-            <div class="card-header">
-                <a [routerLink]="['/posts', post.id]" class="post-link">
-                    <div class="card-title">{{ post.title }}</div>
+        <div *ngFor="let post of posts" class="post card">
+            <p class="card__title">
+                <a [routerLink]="['/posts', post.id]" class="post__link">
+                    {{ post.title }}
                 </a>
-                <div class="card-subtitle">
-                    <p>{{ post.createdAt | date:'dd/MM/yyyy' }}</p>
-                    <p>{{ post.author }}</p>
-                </div>
+            </p>
+            <div class="card__subtitle post__info">
+                <p>{{ post.createdAt | date:'dd/MM/yyyy' }}</p>
+                <p>{{ post.author }}</p>
             </div>
-            <div class="card-content">
-                <p>{{ post.content }}</p>
+            <div class="card__content">
+                <p class="post__content">{{ post.content }}</p>
             </div>
         </div>
     </div>

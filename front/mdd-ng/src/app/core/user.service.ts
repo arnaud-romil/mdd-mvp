@@ -1,6 +1,5 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Topic } from "../models/topic.interface";
 import { Observable } from "rxjs";
 import { User } from "../models/user.interface";
 
@@ -13,8 +12,8 @@ export class UserService {
 
     constructor(private readonly http: HttpClient) { }
 
-    addSubscription(topic: Topic): Observable<User> {
-        return this.http.post<User>(`${this.apiUrl}/me/topics/${topic.id}`, {});
+    addSubscription(topicId: number): Observable<User> {
+        return this.http.post<User>(`${this.apiUrl}/me/topics/${topicId}`, {});
     }
 
     removeSubscription(topicId: number): Observable<User> {

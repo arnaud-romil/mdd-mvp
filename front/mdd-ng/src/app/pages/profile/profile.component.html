@@ -27,22 +27,7 @@
     <h2 class="subscriptions-title">Abonnements</h2>
 
     <div class="user-subscriptions">
-
-        <div *ngIf="subscribedTopics.length === 0">Vous n'êtes abonné à aucun thème.</div>
-
-        <div *ngFor="let topic of subscribedTopics" class="topic-card">
-            <div class="card-header">
-                <div class="card-title">{{ topic.title }}</div>
-            </div>
-            <div class="card-content">
-                <p>{{ topic.description }}</p>
-            </div>
-            <div class="card-actions">
-                <button (click)="unsubscribeTopic(topic.id)" class="unsubscribe-btn primary-button">
-                    Se désabonner
-                </button>
-            </div>
-        </div>
+        <app-topics />
     </div>
 
 </div>

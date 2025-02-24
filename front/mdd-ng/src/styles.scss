@@ -9,6 +9,8 @@
 // Colors
 
 $custom-purple: #7763c5;
+$card-background-color: #f5f5f5;
+$comment-background-color: #eeeeee;
 
 // Buttons
 
@@ -41,6 +43,50 @@ $custom-purple: #7763c5;
     opacity: 0.5;
 }
 
+// Cards
+
+.card {
+    background-color: $card-background-color;
+    border-radius: 0.5rem;
+}
+
+.card__title {
+    color: black;
+    font-weight: 700;
+    font-size: 1rem;
+    line-height: 1.21rem;
+    letter-spacing: 0%;
+    text-align: left;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.card__subtitle {
+    display: flex;
+    flex-direction: row;
+}
+
+.card__subtitle p {
+    color: #000000;
+    font-weight: 400;
+    font-size: 0.87rem;
+    line-height: 1.06rem;
+    text-align: left;
+}
+
+.card__content {
+    color: black;
+    font-weight: 400;
+    font-size: 0.875rem;
+    line-height: 1.06rem;
+    letter-spacing: 0%;
+    text-align: left;
+}
+
+
 // Login and Register
 
 .logo-title-container {
@@ -55,6 +101,8 @@ $custom-purple: #7763c5;
     width: 14rem;
     height: 8.13rem;
 }
+
+
 
 // Forms
 
