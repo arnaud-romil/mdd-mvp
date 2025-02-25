@@ -1,6 +1,7 @@
 .post-detail-container {
     display: flex;
     flex-direction: column;
+    height: calc(100vh - 3.88rem);
 }
 
 .post-container {
