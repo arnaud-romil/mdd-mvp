@@ -9,8 +9,8 @@ CREATE TABLE IF NOT EXISTS `REFRESH_TOKENS` (
   `id` BIGINT PRIMARY KEY AUTO_INCREMENT,
   `token` CHAR(36) NOT NULL UNIQUE,
   `user_id` BIGINT NOT NULL,
-  `created_at` TIMESTAMP NOT NULL, 
-  `expires_at` TIMESTAMP NOT NULL,
+  `created_at` DATETIME NOT NULL, 
+  `expires_at` DATETIME NOT NULL,
   FOREIGN KEY (`user_id`) REFERENCES `USERS` (`id`)
 ); 
 
@@ -23,10 +23,10 @@ CREATE TABLE IF NOT EXISTS `TOPICS` (
 CREATE TABLE IF NOT EXISTS `POSTS` (
   `id` BIGINT PRIMARY KEY AUTO_INCREMENT,
   `title` VARCHAR(255) NOT NULL UNIQUE,
-  `content` VARCHAR(255) NOT NULL,
+  `content` TEXT NOT NULL,
   `topic_id` BIGINT NOT NULL,
   `author_id` BIGINT NOT NULL,
-  `created_at` TIMESTAMP NOT NULL,
+  `created_at` DATETIME NOT NULL,
   FOREIGN KEY (`author_id`) REFERENCES `USERS` (`id`),
   FOREIGN KEY (`topic_id`) REFERENCES `TOPICS` (`id`)
 );
@@ -36,7 +36,7 @@ CREATE TABLE IF NOT EXISTS `COMMENTS` (
   `content` VARCHAR(255) NOT NULL,
   `post_id` BIGINT NOT NULL,
   `author_id` BIGINT NOT NULL,
-  `created_at` TIMESTAMP NOT NULL,
+  `created_at` DATETIME NOT NULL,
   FOREIGN KEY (`post_id`) REFERENCES `POSTS` (`id`),
   FOREIGN KEY (`author_id`) REFERENCES `USERS` (`id`)
 );
