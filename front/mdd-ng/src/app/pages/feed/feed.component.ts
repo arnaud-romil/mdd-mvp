@@ -14,6 +14,8 @@ import { take } from 'rxjs';
 })
 export class FeedComponent implements OnInit {
 
+  sortByPostDateDesc: boolean = true;
+
   posts: Post[] = [];
 
   constructor(private readonly postService: PostService) { }
@@ -22,8 +24,19 @@ export class FeedComponent implements OnInit {
     this.postService.getUserFeed()
       .pipe(take(1))
       .subscribe(
-        (posts) => this.posts = posts
+        (posts) => {
+          this.posts = posts;
+        }
       );
   }
 
+  toggleSort(): void {
+    this.sortByPostDateDesc = !this.sortByPostDateDesc;
+    if (this.sortByPostDateDesc) {
+      this.posts.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+    }
+    else {
+      this.posts.sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime());
+    }
+  }
 }
