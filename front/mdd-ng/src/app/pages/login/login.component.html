@@ -1,29 +1,27 @@
 <div class="login">
 
-    <div class="login__back">
+    <div>
         <button (click)="goBack()" class="back-button">
             <img src="img/back_arrow.svg" alt="Back Arrow" class="back-arrow" />
         </button>
     </div>
 
-    <div class="login__header">
-        <img src="img/logo_p6.png" alt="Logo MDD" class="login__logo" />
+    <div class="logo-title-container">
+        <img src="img/logo_p6.png" alt="Logo MDD" class="mobile-logo" />
         <h2 class="login__title">Se connecter</h2>
     </div>
 
     <form class="login__form" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
 
-        <mat-label>E-mail ou nom d'utilisateur </mat-label>
-        <mat-form-field appearance="outline">
-            <input matInput type="text" formControlName="login">
-        </mat-form-field>
-
-        <mat-label>Mot de passe</mat-label>
-        <mat-form-field appearance="outline">
-            <input matInput type="password" formControlName="password">
-        </mat-form-field>
-
-        <button mat-raised-button type="submit" [disabled]="loginForm.invalid">Se connecter</button>
+        <div class="form-field">
+            <label for="login">E-mail ou nom d'utilisateur </label>
+            <input type="text" formControlName="login" id="login" class="secondary-input">
+        </div>
+        <div class="form-field">
+            <label for="password">Mot de passe</label>
+            <input type="password" formControlName="password" id="password" class="secondary-input">
+        </div>
+        <button type="submit" [disabled]="loginForm.invalid" class="primary-button">Se connecter</button>
     </form>
 
 </div>

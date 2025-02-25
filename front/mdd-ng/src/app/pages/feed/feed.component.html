@@ -1,26 +1,26 @@
 <div class="feed-container">
 
     <div class="actions">
-        <button mat-raised-button routerLink="/create-post" class="create-post">
+        <button routerLink="/create-post" class="actions__create primary-button">
             Créer un article
         </button>
-        <p class="feed-sort">Trier par ↓</p>
+        <p class="actions__sort">Trier par ↓</p>
     </div>
 
     <div class="posts">
-        <mat-card *ngFor="let post of posts" class="post-card">
-            <mat-card-header>
-                <a [routerLink]="['/posts', post.id]" class="post-link">
-                    <mat-card-title>{{ post.title }}</mat-card-title>
+        <div *ngFor="let post of posts" class="post card">
+            <p class="card__title">
+                <a [routerLink]="['/posts', post.id]" class="post__link">
+                    {{ post.title }}
                 </a>
-                <mat-card-subtitle>
-                    <p>Date: {{ post.createdAt | date:'dd/MM/yyyy' }}</p>
-                    <p>Auteur: {{ post.author }}</p>
-                </mat-card-subtitle>
-            </mat-card-header>
-            <mat-card-content>
-                <p>Content: {{ post.content }}</p>
-            </mat-card-content>
-        </mat-card>
+            </p>
+            <div class="card__subtitle post__info">
+                <p>{{ post.createdAt | date:'dd/MM/yyyy' }}</p>
+                <p>{{ post.author }}</p>
+            </div>
+            <div class="card__content">
+                <p class="post__content">{{ post.content }}</p>
+            </div>
+        </div>
     </div>
 </div>

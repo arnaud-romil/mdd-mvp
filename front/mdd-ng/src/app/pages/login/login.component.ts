@@ -1,25 +1,18 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { MatInputModule } from '@angular/material/input';
-import { MatFormFieldModule } from '@angular/material/form-field';
 import { AuthService } from '../../core/auth.service';
 import { Router } from '@angular/router';
 import { take } from 'rxjs';
-import { MatButtonModule } from '@angular/material/button';
+
 
 @Component({
   selector: 'app-login',
   standalone: true,
   imports: [
-    MatInputModule,
-    MatButtonModule,
-    MatFormFieldModule,
     ReactiveFormsModule
   ],
   templateUrl: './login.component.html',
-  styleUrl: './login.component.scss',
-  encapsulation: ViewEncapsulation.None
-
+  styleUrl: './login.component.scss'
 })
 export class LoginComponent {
 

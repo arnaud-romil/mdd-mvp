@@ -25,35 +25,8 @@
     align-items: center;
 }
 
-.mat-mdc-form-field {
-    width: 100%;
-    margin-bottom: 0.15rem;
-}
-
-.mat-mdc-form-field.mat-mdc-focused {
-    border-color: transparent !important;
-}
-
-.mat-mdc-text-field-wrapper {
-    background-color: #ffffff !important;
-    border: 2px solid #7763c5;
-    border-radius: 0.5rem !important;
-}
-
-.mat-mdc-input-element {
-    color: #000000 !important;
-}
-
 .save-profile {
     width: 8.69rem;
-    height: 2.5rem;
-    border-radius: 0.5rem;
-    background-color: #7763c5 !important;
-    color: #ffffff !important;
-    font-weight: 600;
-    font-size: 1rem;
-    line-height: 1.21rem;
-    border: none;
 }
 
 .logout-button {
@@ -84,36 +57,6 @@ hr {
     align-items: center;
 }
 
-.topic-card {
-    width: 16.56rem;
-    height: 11.31rem;
-    background-color: #f5f5f5 !important;
-    border-radius: 0.5rem !important;
-    margin: 0.6rem;
-}
-
-.unsubscribe-btn {
-    display: block;
-    color: #ffffff;
-    background-color: #7763c5;
-    border: none;
-    border-radius: 0.5rem;
-    width: 9.56rem;
-    height: 2.5rem;
-    font-weight: 600;
-    font-size: 1rem;
-    line-height: 1.21rem;
-    letter-spacing: 0%;
-    margin: auto;
-}
-
-.mat-mdc-card-actions {
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-}
-
 @media (min-width: 768px) {
 
     .profile-container {
@@ -136,10 +79,5 @@ hr {
         flex-direction: row;
         flex-wrap: wrap;
         justify-content: space-between;
-    }
-
-    .topic-card {
-        width: 23.5rem;
-        height: 10.06rem;
     }
 }

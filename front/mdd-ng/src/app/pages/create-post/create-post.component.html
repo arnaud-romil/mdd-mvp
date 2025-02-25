@@ -10,27 +10,26 @@
 
     <form [formGroup]="postForm" (ngSubmit)="submitPost()" class="create-post__form">
 
-        <mat-form-field>
-            <mat-label>Sélectionner un thème</mat-label>
-            <mat-select formControlName="topicId">
+        <mat-form-field class="form-field">
+            <mat-select matNativeControl formControlName="topicId">
+                <mat-option value="" disabled selected class="select-placeholder">Sélectionner un thème...</mat-option>
                 <mat-option *ngFor="let topic of topics" [value]="topic.id">
                     {{ topic.title }}
                 </mat-option>
             </mat-select>
         </mat-form-field>
 
-        <mat-form-field>
-            <mat-label>Titre de l'article</mat-label>
-            <input matInput formControlName="title" />
-        </mat-form-field>
+        <div class="form-field">
+            <input formControlName="title" placeholder="Titre de l'article..." class="primary-input" />
+        </div>
 
-        <mat-form-field>
-            <mat-label>Contenu de l'article</mat-label>
-            <textarea matInput formControlName="content" rows="6"></textarea>
-        </mat-form-field>
+        <div class="form-field">
+            <textarea formControlName="content" rows="6" placeholder="Contenu de l'article..."
+                class="primary-textarea"></textarea>
+        </div>
 
-        <button type="submit" [disabled]="postForm.invalid" class="create-post__button"
-            [ngClass]="{ 'create-post__button--disabled': postForm.invalid}">
+        <button type=" submit" [disabled]="postForm.invalid" class="create-post__button primary-button"
+            [ngClass]="{ 'button--disabled': postForm.invalid}">
             Créer
         </button>
     </form>

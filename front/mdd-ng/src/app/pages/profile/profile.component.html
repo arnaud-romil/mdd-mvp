@@ -5,20 +5,20 @@
         <h2 class="profile-title">Profil utilisateur</h2>
 
         <form [formGroup]="profileForm" (ngSubmit)="saveProfile()" class="profile-form">
-            <mat-form-field>
-                <input matInput formControlName="username" />
-            </mat-form-field>
+            <div class="form-field">
+                <input formControlName="username" class="primary-input" />
+            </div>
 
-            <mat-form-field>
-                <input matInput type="email" formControlName="email" />
-            </mat-form-field>
+            <div class="form-field">
+                <input type="email" formControlName="email" class="primary-input" />
+            </div>
 
-            <button type="submit" [disabled]="profileForm.invalid" class="save-profile">
+            <button type="submit" [disabled]="profileForm.invalid" class="save-profile primary-button">
                 Sauvegarder
             </button>
         </form>
 
-        <button mat-raised-button (click)="logout()" class="logout-button">Se déconnecter</button>
+        <button (click)="logout()" class="logout-button">Se déconnecter</button>
 
     </div>
 
@@ -27,22 +27,7 @@
     <h2 class="subscriptions-title">Abonnements</h2>
 
     <div class="user-subscriptions">
-
-        <div *ngIf="subscribedTopics.length === 0">Vous n'êtes abonné à aucun thème.</div>
-
-        <mat-card *ngFor="let topic of subscribedTopics" class="topic-card">
-            <mat-card-header>
-                <mat-card-title>{{ topic.title }}</mat-card-title>
-            </mat-card-header>
-            <mat-card-content>
-                <p>Description: {{ topic.description }}</p>
-            </mat-card-content>
-            <mat-card-actions>
-                <button (click)="unsubscribeTopic(topic.id)" class="unsubscribe-btn">
-                    Se désabonner
-                </button>
-            </mat-card-actions>
-        </mat-card>
+        <app-topics />
     </div>
 
 </div>

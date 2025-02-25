@@ -3,13 +3,12 @@ import { Component, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/
 import { NavigationEnd, Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { MatSidenav, MatSidenavModule } from '@angular/material/sidenav';
-import { MatListModule } from '@angular/material/list';
-import { MatIconModule } from '@angular/material/icon';
+
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [CommonModule, RouterLink, RouterLinkActive, MatSidenavModule, MatListModule, MatIconModule],
+  imports: [CommonModule, RouterLink, RouterLinkActive, MatSidenavModule],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
 })
@@ -48,8 +47,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   updateHeader(currentRoute: string) {
     const specialRoutes = ['/login', '/register'];
-
-    console.log(`isMobile: ${this.isMobile}`);
 
     this.showHeader = !this.isHomePage(currentRoute) && !(this.isMobile &&
       specialRoutes.includes(currentRoute));
