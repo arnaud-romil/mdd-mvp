@@ -3,12 +3,14 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { AuthService } from '../../core/auth.service';
 import { Router } from '@angular/router';
 import { take } from 'rxjs';
+import { CommonModule } from '@angular/common';
 
 
 @Component({
   selector: 'app-login',
   standalone: true,
   imports: [
+    CommonModule,
     ReactiveFormsModule
   ],
   templateUrl: './login.component.html',
@@ -17,6 +19,7 @@ import { take } from 'rxjs';
 export class LoginComponent {
 
   loginForm: FormGroup;
+  errorMessage: string = '';
 
   constructor(private readonly formBuilder: FormBuilder, private readonly authService: AuthService, private readonly router: Router) {
     this.loginForm = this.formBuilder.group({
@@ -33,8 +36,8 @@ export class LoginComponent {
         next: () => {
           this.router.navigate(['/feed'])
         },
-        error: (err) => {
-          console.error('Erreur de connexion', err)
+        error: () => {
+          this.errorMessage = "Une erreur s'est produite";
         }
       });
     }

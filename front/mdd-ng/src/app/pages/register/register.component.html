@@ -26,6 +26,10 @@
             <label for="password">Mot de passe</label>
             <input matInput type="password" formControlName="password" id="password" class="secondary-input" />
         </div>
-        <button type="submit" [disabled]="registerForm.invalid" class="primary-button">S'inscrire</button>
+        <button type="submit" [disabled]="registerForm.invalid" class="primary-button"
+            [ngClass]="{ 'button--disabled': registerForm.invalid }"
+            title="Le mot de passe doit comporter au moins 8 caractères dont un chiffre, une lettre minuscule, une lettre majuscule et un caractère spécial">S'inscrire</button>
+
+        <p *ngIf="errorMessage" class="error-message">{{ errorMessage }}</p>
     </form>
 </div>

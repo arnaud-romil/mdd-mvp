@@ -15,13 +15,19 @@
 
         <div class="form-field">
             <label for="login">E-mail ou nom d'utilisateur </label>
-            <input type="text" formControlName="login" id="login" class="secondary-input">
+            <input type="text" formControlName="login" id="login" name="login" class="secondary-input">
         </div>
         <div class="form-field">
             <label for="password">Mot de passe</label>
-            <input type="password" formControlName="password" id="password" class="secondary-input">
+            <input type="password" formControlName="password" id="password" name="password" class="secondary-input">
         </div>
-        <button type="submit" [disabled]="loginForm.invalid" class="primary-button">Se connecter</button>
+        <button type="submit" [disabled]="loginForm.invalid" class="primary-button"
+            [ngClass]="{ 'button--disabled': loginForm.invalid }"
+            title="Le champs login est requis et le mot de passe doit comporter 8 caractères au minimum">Se
+            connecter</button>
+
+        <p *ngIf="errorMessage" class="error-message">{{ errorMessage }}</p>
     </form>
+
 
 </div>

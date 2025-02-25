@@ -17,6 +17,7 @@ import { Router } from '@angular/router';
 export class RegisterComponent implements OnInit {
 
   registerForm!: FormGroup;
+  errorMessage: string = '';
 
   constructor(
     private readonly fb: FormBuilder,
@@ -27,7 +28,7 @@ export class RegisterComponent implements OnInit {
   ngOnInit(): void {
 
     this.registerForm = this.fb.group({
-      username: ['', [Validators.required, Validators.minLength(3)]],
+      username: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, this.passwordValidator]]
     });
@@ -50,11 +51,14 @@ export class RegisterComponent implements OnInit {
 
   register() {
     if (this.registerForm.valid) {
-      this.authService.register(this.registerForm.value).subscribe(
-        () => {
+      this.authService.register(this.registerForm.value).subscribe({
+        next: () => {
           this.router.navigate(['/login']);
+        },
+        error: () => {
+          this.errorMessage = "Une erreur s'est produite";
         }
-      )
+      })
     }
   }
 
