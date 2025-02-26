@@ -48,7 +48,6 @@ export class ProfileComponent implements OnInit {
   saveProfile(): void {
     if (this.profileForm.valid) {
       this.authService.updateUserProfile(this.profileForm.value);
-      this.router.navigate(['/login']);
     }
   }
 
