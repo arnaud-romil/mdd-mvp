@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+/** Service for handling refresh token related operations. */
 @Service
 @RequiredArgsConstructor
 public class RefreshTokenService {
@@ -46,6 +47,12 @@ public class RefreshTokenService {
     return refreshToken;
   }
 
+  /**
+   * Generates a new JWT token from a refresh token
+   *
+   * @param token the refresh token
+   * @return LoginResponse containing the new JWT token
+   */
   public LoginResponse refreshAccessToken(String token) {
 
     RefreshToken refreshToken =
@@ -58,6 +65,12 @@ public class RefreshTokenService {
   }
 
   @Transactional
+  /**
+   * Revokes the refresh token of a given user
+   *
+   * @param user the user for whom the refresh token must be revoked
+   * @return Cookie containing the revoked refresh token
+   */
   public Cookie revokeRefreshToken(User user) {
 
     List<RefreshToken> refreshTokenList = refreshTokenRepository.findByUserId(user.getId());
@@ -78,6 +91,12 @@ public class RefreshTokenService {
     return refreshTokenCookie;
   }
 
+  /**
+   * Builds a refresh token cookie for a user
+   *
+   * @param user the user for whom the refresh token must be built
+   * @return Cookie containing the refresh token
+   */
   public Cookie buildRefreshTokenCookie(User user) {
 
     RefreshToken refreshToken = generateRefreshToken(user);

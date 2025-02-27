@@ -19,6 +19,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+/** Service for handling user-related operations. */
 @Service
 @RequiredArgsConstructor
 public class UserService {
@@ -29,6 +30,11 @@ public class UserService {
   private final JwtUtil jwtUtil;
   private final UserMapper userMapper;
 
+  /**
+   * Registers a new user to the application
+   *
+   * @param registerRequest the request to register a new user
+   */
   public void registerUser(RegisterRequest registerRequest) {
     User user = new User();
     user.setUsername(registerRequest.getUsername());
@@ -37,6 +43,12 @@ public class UserService {
     saveUser(user);
   }
 
+  /**
+   * Saves a user to the database
+   *
+   * @param user the user to save
+   * @return the user saved
+   */
   public User saveUser(User user) {
     try {
       return userRepository.save(user);
@@ -54,6 +66,12 @@ public class UserService {
     }
   }
 
+  /**
+   * Authenticates a user
+   *
+   * @param loginRequest the user's credentials
+   * @return LoginResponse containing the JWT token and the refresh token cookie
+   */
   public LoginResponse login(LoginRequest loginRequest) {
 
     Optional<User> userOptional = userRepository.findByEmail(loginRequest.getLogin());
@@ -74,16 +92,35 @@ public class UserService {
     return new LoginResponse(jwtUtil.generateAccessToken(user.getEmail()), refreshTokenCookie);
   }
 
+  /**
+   * Retrieves the authenticated user details
+   *
+   * @param userEmail the authenticated user's email address
+   * @return the user details
+   */
   public UserDto me(String userEmail) {
     return userMapper.toDto(findByEmail(userEmail));
   }
 
+  /**
+   * Finds a user by email address
+   *
+   * @param userEmail the user's email address
+   * @return the user found
+   */
   public User findByEmail(String userEmail) {
     return userRepository
         .findByEmail(userEmail)
         .orElseThrow(() -> new UserUnauthorizedException("User not found"));
   }
 
+  /**
+   * Updates the authenticated user's profile
+   *
+   * @param profileUpdateRequest the request to update the user's profile
+   * @param userEmail the authenticated user's email address
+   * @return the updated user
+   */
   public UserDto updateProfile(ProfileUpdateRequest profileUpdateRequest, String userEmail) {
     User user = findByEmail(userEmail);
     user.setUsername(profileUpdateRequest.getUsername());

@@ -4,6 +4,7 @@ import java.time.Instant;
 import lombok.Getter;
 import lombok.Setter;
 
+/** Data Transfer Object for Comment. */
 @Getter
 @Setter
 public class CommentDto {

@@ -5,6 +5,7 @@ import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 
+/** Data Transfer Object for Post. */
 @Getter
 @Setter
 public class PostDto {

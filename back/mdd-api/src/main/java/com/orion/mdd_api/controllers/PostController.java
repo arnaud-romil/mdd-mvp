@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+/** Controller for managing posts */
 @RestController
 @RequestMapping("/posts")
 @RequiredArgsConstructor
@@ -23,6 +24,12 @@ public class PostController {
 
   private final PostService postService;
 
+  /**
+   * Returns the authenticated user's feed
+   *
+   * @param authentication the authenticated principal
+   * @return ResponseEntity containing the list of posts for the authenticated user
+   */
   @GetMapping
   public ResponseEntity<List<PostDto>> getUserFeed(Authentication authentication) {
     final String userEmail = authentication.getName();
@@ -30,11 +37,25 @@ public class PostController {
     return ResponseEntity.ok(posts);
   }
 
+  /**
+   * Retrieves a post by it's id
+   *
+   * @param postId the id of the post to retrieve
+   * @return ResponseEntity containing the post
+   */
   @GetMapping("/{postId}")
   public ResponseEntity<PostDto> getSinglePost(@PathVariable Long postId) {
     return ResponseEntity.ok(postService.getSinglePost(postId));
   }
 
+  /**
+   * Adds a comment to a post
+   *
+   * @param postId the id of the post to add the comment to
+   * @param commentRequest the comment to add to the post
+   * @param authentication the authenticated principal (the comment's author)
+   * @return ResponseEntity containig the updated post
+   */
   @PostMapping("/{postId}/comments")
   public ResponseEntity<PostDto> addComment(
       @PathVariable Long postId,
@@ -45,6 +66,13 @@ public class PostController {
     return ResponseEntity.ok(post);
   }
 
+  /**
+   * Creates a new post
+   *
+   * @param postCreationRequest the request to create a new post
+   * @param authentication the authenticated principal
+   * @return ResponseEntity containing the created post
+   */
   @PostMapping
   public ResponseEntity<PostDto> createPost(
       @Valid @RequestBody PostCreationRequest postCreationRequest, Authentication authentication) {

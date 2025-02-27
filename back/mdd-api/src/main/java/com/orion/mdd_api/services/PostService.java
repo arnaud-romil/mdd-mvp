@@ -16,6 +16,7 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+/** Service for handling post-related operations. */
 @Service
 @RequiredArgsConstructor
 public class PostService {
@@ -26,10 +27,22 @@ public class PostService {
   private final CommentService commentService;
   private final TopicService topicService;
 
+  /**
+   * Finds a post by ID.
+   *
+   * @param postId the id of the post
+   * @return the post
+   */
   public PostDto getSinglePost(Long postId) {
     return postMapper.toDto(findById(postId));
   }
 
+  /**
+   * Returns the authenticated user's feed
+   *
+   * @param userEmail the email adress of the user
+   * @return List containing the posts for the user
+   */
   public List<PostDto> getUserFeed(String userEmail) {
     User user = userService.findByEmail(userEmail);
     List<Long> topicIdList = user.getTopics().stream().map(Topic::getId).toList();
@@ -38,6 +51,14 @@ public class PostService {
     return postMapper.toDtoList(posts);
   }
 
+  /**
+   * Adds a comment to a post
+   *
+   * @param postId the post to add the comment to
+   * @param commentRequest the comment to add
+   * @param userEmail the authenticated user's email adress
+   * @return the updated post
+   */
   public PostDto addComment(Long postId, CommentRequest commentRequest, String userEmail) {
     Post post = findById(postId);
     User user = userService.findByEmail(userEmail);
@@ -61,6 +82,13 @@ public class PostService {
         .orElseThrow(() -> new InvalidDataException("Post not found"));
   }
 
+  /**
+   * Creates a new post
+   *
+   * @param postCreationRequest the request to create a new post
+   * @param userEmail the authenticated user's email
+   * @return the created post
+   */
   public PostDto createPost(PostCreationRequest postCreationRequest, String userEmail) {
     User user = userService.findByEmail(userEmail);
 

@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+/** Controller for managing authentication related operations */
 @RestController
 @RequestMapping("/auth")
 @RequiredArgsConstructor
@@ -31,6 +32,12 @@ public class AuthController {
   private final UserService userService;
   private final RefreshTokenService refreshTokenService;
 
+  /**
+   * Registers a new user to the application
+   *
+   * @param registerRequest the request to register a new user
+   * @return ResponseEntity containing the response message
+   */
   @PostMapping("/register")
   public ResponseEntity<MessageResponse> register(
       @Valid @RequestBody RegisterRequest registerRequest) {
@@ -38,6 +45,13 @@ public class AuthController {
     return ResponseEntity.ok(new MessageResponse("User registered successfully"));
   }
 
+  /**
+   * Authenticates a user
+   *
+   * @param loginRequest the login request containing the user's credentials
+   * @param response the http servlet response used to return the refresh token cookie
+   * @return LoginResponse containing a JWT token
+   */
   @PostMapping("/login")
   public ResponseEntity<LoginResponse> login(
       @Valid @RequestBody LoginRequest loginRequest, HttpServletResponse response) {
@@ -46,6 +60,12 @@ public class AuthController {
     return ResponseEntity.ok(loginResponse);
   }
 
+  /**
+   * Returns the authenticated user's details
+   *
+   * @param authentication the authenticated principal
+   * @return ResponseEntity containing the user details
+   */
   @GetMapping("/me")
   public ResponseEntity<UserDto> me(Authentication authentication) {
     final String userEmail = authentication.getName();
@@ -53,6 +73,13 @@ public class AuthController {
     return ResponseEntity.ok(userDto);
   }
 
+  /**
+   * Updates the authenticated user's details
+   *
+   * @param profileUpdateRequest the request to update the user's details
+   * @param authentication the authenticated principal
+   * @return ResponseEntity containing the user details
+   */
   @PutMapping("/me")
   public ResponseEntity<UserDto> me(
       @Valid @RequestBody ProfileUpdateRequest profileUpdateRequest,
@@ -62,6 +89,12 @@ public class AuthController {
     return ResponseEntity.ok(userDto);
   }
 
+  /**
+   * Generates a new JWT token given a refresh token cookie
+   *
+   * @param refreshToken the refresh token cookie
+   * @return LoginResponse containing the JWT token
+   */
   @PostMapping("/refresh-token")
   public ResponseEntity<LoginResponse> refreshToken(
       @CookieValue(value = "refreshToken") String refreshToken) {
@@ -69,6 +102,13 @@ public class AuthController {
     return ResponseEntity.ok(loginResponse);
   }
 
+  /**
+   * Logs out an authenticated user
+   *
+   * @param response the http servlet response used to return a revoked refresh token cookie
+   * @param authentication the authenticated principal
+   * @return ResponseEntity of Void
+   */
   @PostMapping("/logout")
   public ResponseEntity<Void> logout(HttpServletResponse response, Authentication authentication) {
     final String userEmail = authentication.getName();

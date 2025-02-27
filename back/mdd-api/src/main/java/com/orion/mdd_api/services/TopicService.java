@@ -10,6 +10,7 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+/** Service for handling topic-related operations. */
 @Service
 @RequiredArgsConstructor
 public class TopicService {
@@ -18,6 +19,12 @@ public class TopicService {
   private final TopicMapper topicMapper;
   private final UserService userService;
 
+  /**
+   * Retrieves all topics
+   *
+   * @param userEmail the authenticated user's email address
+   * @return List containing all topics
+   */
   public List<TopicDto> getAllTopics(String userEmail) {
     User user = userService.findByEmail(userEmail);
     List<Topic> topics = topicRepository.findAll();
@@ -30,6 +37,12 @@ public class TopicService {
     return topicMapper.toDtoList(topics);
   }
 
+  /**
+   * Retrieves a topic by ID
+   *
+   * @param topicId the id of the topic to retrieve
+   * @return the topic
+   */
   public Topic findById(Long topicId) {
     return topicRepository
         .findById(topicId)

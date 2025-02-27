@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/** Data Transfer Object for User. */
 @Setter
 @Getter
 @NoArgsConstructor
