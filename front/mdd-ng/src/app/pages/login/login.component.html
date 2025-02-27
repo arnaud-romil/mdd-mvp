@@ -15,11 +15,11 @@
 
         <div class="form-field">
             <label for="login">E-mail ou nom d'utilisateur </label>
-            <input type="text" formControlName="login" id="login" name="login" class="secondary-input">
+            <input type="text" formControlName="login" id="login" name="login"autocomplete="username" class="secondary-input">
         </div>
         <div class="form-field">
             <label for="password">Mot de passe</label>
-            <input type="password" formControlName="password" id="password" name="password" class="secondary-input">
+            <input type="password" formControlName="password" id="password" name="password" autocomplete="current-password" class="secondary-input">
         </div>
         <button type="submit" [disabled]="loginForm.invalid" class="primary-button"
             [ngClass]="{ 'button--disabled': loginForm.invalid }"
