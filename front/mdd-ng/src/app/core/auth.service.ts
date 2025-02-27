@@ -33,11 +33,11 @@ export class AuthService {
         return this.http.get<User>(`${this.apiUrl}/me`);
     }
 
-    updateUserProfile(userProfile: ProfileUpdateRequest): void {
-        this.http.put<User>(`${this.apiUrl}/me`, userProfile)
-            .pipe(take(1))
-            .subscribe(
-                () => this.setToken('') // User must login after a profile update
+    updateUserProfile(userProfile: ProfileUpdateRequest): Observable<void> {
+        return this.http.put<void>(`${this.apiUrl}/me`, userProfile)
+            .pipe(
+                take(1),
+                tap(() => this.setToken(''))
             );
     }
 

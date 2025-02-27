@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../../core/auth.service';
 import { Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-register',
@@ -22,7 +23,8 @@ export class RegisterComponent implements OnInit {
   constructor(
     private readonly fb: FormBuilder,
     private readonly authService: AuthService,
-    private readonly router: Router
+    private readonly router: Router, 
+    private readonly matSnackBar: MatSnackBar
   ) { }
 
   ngOnInit(): void {
@@ -53,7 +55,10 @@ export class RegisterComponent implements OnInit {
     if (this.registerForm.valid) {
       this.authService.register(this.registerForm.value).subscribe({
         next: () => {
-          this.router.navigate(['/login']);
+          this.matSnackBar.open("Inscription réussie ! Redirection vers la connexion...", 'OK', { duration: 3000 });
+          setTimeout(() => {
+            this.router.navigate(['/login']);
+          }, 3000);
         },
         error: () => {
           this.errorMessage = "Une erreur s'est produite";
