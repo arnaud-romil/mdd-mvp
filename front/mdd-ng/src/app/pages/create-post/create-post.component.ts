@@ -4,7 +4,7 @@ import { TopicService } from '../../core/topic.service';
 import { PostService } from '../../core/post.service';
 import { Router } from '@angular/router';
 import { Topic } from '../../models/topic.interface';
-import { take } from 'rxjs';
+import { map, take } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { MatSelectModule } from '@angular/material/select';
 
@@ -38,7 +38,11 @@ export class CreatePostComponent implements OnInit {
   }
 
   loadTopics(): void {
-    this.topicService.getTopics().pipe(take(1))
+    this.topicService.getTopics()
+      .pipe(
+        take(1),
+        map((topics) => topics.filter((topic) => topic.subscribed))
+      )
       .subscribe({
         next: (topics) => this.topics = topics
       });

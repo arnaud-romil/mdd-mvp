@@ -129,4 +129,25 @@ class PostControllerTest {
         .andExpect(jsonPath("$.comments.length()").value(0))
         .andExpect(jsonPath("$.createdAt").exists());
   }
+
+  @Test
+  @WithMockUser("user1@test.com")
+  @DirtiesContext
+  void shouldNotAllowUserToCreateAPostForAnUnsubscribedTopic() throws Exception {
+
+    String postCreationRequest =
+        """
+                {
+                    "title": "Les fondamentaux de Python",
+                    "content": "Python est un langage de programmation puissant et facile à apprendre. Il dispose de structures de données de haut niveau et permet une approche simple mais efficace de la programmation orientée objet.",
+                    "topicId": 3
+                }
+                """;
+
+    mockMvc
+        .perform(
+            post("/posts").content(postCreationRequest).contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isForbidden())
+        .andExpect(jsonPath("$.message").value("User is not subscribed to the topic"));
+  }
 }

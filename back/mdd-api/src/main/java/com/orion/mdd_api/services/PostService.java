@@ -2,6 +2,7 @@ package com.orion.mdd_api.services;
 
 import com.orion.mdd_api.dtos.PostDto;
 import com.orion.mdd_api.exceptions.InvalidDataException;
+import com.orion.mdd_api.exceptions.UserForbiddenException;
 import com.orion.mdd_api.mappers.PostMapper;
 import com.orion.mdd_api.models.Comment;
 import com.orion.mdd_api.models.Post;
@@ -91,6 +92,11 @@ public class PostService {
    */
   public PostDto createPost(PostCreationRequest postCreationRequest, String userEmail) {
     User user = userService.findByEmail(userEmail);
+
+    if (user.getTopics().stream()
+        .noneMatch(topic -> topic.getId().equals(postCreationRequest.getTopicId()))) {
+      throw new UserForbiddenException("User is not subscribed to the topic");
+    }
 
     Topic topic = topicService.findById(postCreationRequest.getTopicId());
 

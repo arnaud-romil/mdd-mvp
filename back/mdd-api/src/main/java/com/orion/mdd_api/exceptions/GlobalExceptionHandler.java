@@ -25,4 +25,9 @@ public class GlobalExceptionHandler {
   public ResponseEntity<String> handleDatabaseException(DatabaseException ex) {
     return ResponseEntity.internalServerError().body(ex.getMessage());
   }
+
+  @ExceptionHandler(UserForbiddenException.class)
+  public ResponseEntity<MessageResponse> handleInvalidDataException(UserForbiddenException ex) {
+    return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new MessageResponse(ex.getMessage()));
+  }
 }
