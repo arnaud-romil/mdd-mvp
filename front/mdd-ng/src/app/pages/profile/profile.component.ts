@@ -22,7 +22,7 @@ export class ProfileComponent implements OnInit {
   constructor(
     private readonly fb: FormBuilder,
     private readonly authService: AuthService,
-    private readonly router: Router, 
+    private readonly router: Router,
     private readonly matSnackBar: MatSnackBar
   ) { }
 
@@ -48,17 +48,20 @@ export class ProfileComponent implements OnInit {
   saveProfile(): void {
     if (this.profileForm.valid) {
       this.authService.updateUserProfile(this.profileForm.value)
-      .subscribe({
-        next: () => {
-          this.matSnackBar.open("Modification du profil réussie !", 'OK', { duration: 3000 });
-        }
-      }
-      );
+        .pipe(take(1))
+        .subscribe({
+          next: () => {
+            this.matSnackBar.open("Une reconnexion est nécessaire ! Déconnexion en cours ...", 'OK', { duration: 3000 });
+            setTimeout(() => {
+              this.router.navigate(['/login']);
+            }, 3000);
+          }
+        });
     }
   }
 
   logout(): void {
     this.authService.logout();
-    this.router.navigate(['/login']);
+
   }
 }
