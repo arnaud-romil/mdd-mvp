@@ -44,8 +44,10 @@ public class PostController {
    * @return ResponseEntity containing the post
    */
   @GetMapping("/{postId}")
-  public ResponseEntity<PostDto> getSinglePost(@PathVariable Long postId) {
-    return ResponseEntity.ok(postService.getSinglePost(postId));
+  public ResponseEntity<PostDto> getSinglePost(
+      @PathVariable Long postId, Authentication authentication) {
+    final String userEmail = authentication.getName();
+    return ResponseEntity.ok(postService.getSinglePost(postId, userEmail));
   }
 
   /**

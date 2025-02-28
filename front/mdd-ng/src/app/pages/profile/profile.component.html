@@ -13,7 +13,9 @@
                 <input type="email" formControlName="email" class="primary-input" />
             </div>
 
-            <button type="submit" class="save-profile primary-button">
+            <button type="submit" class="save-profile primary-button"
+                [ngClass]="{ 'button--disabled': profileForm.invalid }"
+                title="Une reconnexion sera nécessaire pour appliquer les modifications">
                 Sauvegarder
             </button>
         </form>

@@ -74,17 +74,22 @@ public class AuthController {
   }
 
   /**
-   * Updates the authenticated user's details
+   * Updates the authenticated user's details and revokes the refresh token
    *
    * @param profileUpdateRequest the request to update the user's details
    * @param authentication the authenticated principal
+   * @param response the http servlet response used to return a revoked refresh token cookie
    * @return ResponseEntity containing the user details
    */
   @PutMapping("/me")
   public ResponseEntity<UserDto> me(
       @Valid @RequestBody ProfileUpdateRequest profileUpdateRequest,
-      Authentication authentication) {
+      Authentication authentication,
+      HttpServletResponse response) {
     final String userEmail = authentication.getName();
+    User user = userService.findByEmail(userEmail);
+    Cookie revokedRefreshTokenCookie = refreshTokenService.revokeRefreshToken(user);
+    response.addCookie(revokedRefreshTokenCookie);
     UserDto userDto = userService.updateProfile(profileUpdateRequest, userEmail);
     return ResponseEntity.ok(userDto);
   }

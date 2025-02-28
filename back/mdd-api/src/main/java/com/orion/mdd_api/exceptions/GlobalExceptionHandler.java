@@ -27,7 +27,13 @@ public class GlobalExceptionHandler {
   }
 
   @ExceptionHandler(UserForbiddenException.class)
-  public ResponseEntity<MessageResponse> handleInvalidDataException(UserForbiddenException ex) {
+  public ResponseEntity<MessageResponse> handleUserForbiddenException(UserForbiddenException ex) {
     return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new MessageResponse(ex.getMessage()));
+  }
+
+  @ExceptionHandler(ResourceNotFoundException.class)
+  public ResponseEntity<MessageResponse> handleResourceNotFoundException(
+      ResourceNotFoundException ex) {
+    return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new MessageResponse(ex.getMessage()));
   }
 }

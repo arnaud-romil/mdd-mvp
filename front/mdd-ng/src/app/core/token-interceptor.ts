@@ -26,6 +26,13 @@ export class TokenInterceptor implements HttpInterceptor {
                 if (error instanceof HttpErrorResponse && error.status === 401 && isReqExcluded) {
                     return this.handle401Error(req, next);
                 }
+                if (error instanceof HttpErrorResponse && error.status === 403) {
+                    this.router.navigate(['/forbidden']);
+                }
+                if (error instanceof HttpErrorResponse && error.status === 404) {
+                    this.router.navigate(['/not-found']);
+                }
+
                 return throwError(() => error);
             })
         );

@@ -3,6 +3,7 @@ package com.orion.mdd_api.services;
 import com.orion.mdd_api.dtos.UserDto;
 import com.orion.mdd_api.exceptions.DatabaseException;
 import com.orion.mdd_api.exceptions.InvalidDataException;
+import com.orion.mdd_api.exceptions.ResourceNotFoundException;
 import com.orion.mdd_api.exceptions.UserUnauthorizedException;
 import com.orion.mdd_api.mappers.UserMapper;
 import com.orion.mdd_api.models.User;
@@ -111,7 +112,7 @@ public class UserService {
   public User findByEmail(String userEmail) {
     return userRepository
         .findByEmail(userEmail)
-        .orElseThrow(() -> new UserUnauthorizedException("User not found"));
+        .orElseThrow(() -> new ResourceNotFoundException("User not found"));
   }
 
   /**

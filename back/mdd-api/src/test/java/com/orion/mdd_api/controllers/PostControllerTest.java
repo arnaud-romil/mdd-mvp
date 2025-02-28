@@ -24,7 +24,7 @@ class PostControllerTest {
   @Autowired private MockMvc mockMvc;
 
   @Test
-  @WithMockUser("user13@test.com")
+  @WithMockUser("user1@test.com")
   void shouldAllowUserToViewPost() throws Exception {
     mockMvc
         .perform(get("/posts/1"))
@@ -44,6 +44,24 @@ class PostControllerTest {
         .andExpect(jsonPath("$.comments[0].author").value("user3"))
         .andExpect(jsonPath("$.comments[0].createdAt").exists())
         .andExpect(jsonPath("createdAt").exists());
+  }
+
+  @Test
+  @WithMockUser("user1@test.com")
+  void shouldNotAllowUserToViewPostForAnUnsubscribedTopic() throws Exception {
+    mockMvc
+        .perform(get("/posts/5"))
+        .andExpect(status().isForbidden())
+        .andExpect(jsonPath("$.message").value("User is not subscribed to the topic"));
+  }
+
+  @Test
+  @WithMockUser("user1@test.com")
+  void shouldReturnNotFoundIfThePostDoestNotExist() throws Exception {
+    mockMvc
+        .perform(get("/posts/99"))
+        .andExpect(status().isNotFound())
+        .andExpect(jsonPath("$.message").value("Post not found"));
   }
 
   @Test

@@ -34,11 +34,10 @@ export class AuthService {
     }
 
     updateUserProfile(userProfile: ProfileUpdateRequest): Observable<void> {
-        return this.http.put<void>(`${this.apiUrl}/me`, userProfile)
-            .pipe(
-                take(1),
-                tap(() => this.setToken(''))
-            );
+        return this.http.put<void>(`${this.apiUrl}/me`, userProfile).pipe(
+            take(1),
+            tap(() => { this.setToken(''); })
+        );
     }
 
     refreshToken(): Observable<AccessToken> {
