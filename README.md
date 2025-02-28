@@ -46,6 +46,8 @@ spring.datasource.username=mdd_user
 spring.datasource.password=password
 ```
 
+* Run the following sql scripts: ```mdd-mvp/back/mdd-api/src/main/resources/schema.sql``` (the database schema) and ```mdd-mvp/back/mdd-api/src/test/resources/data.sql``` (to populate the database).
+
 3. Generate JWT keys using openssl and place them inside the ```mdd-mvp/back/mdd-api/src/main/resources``` folder:
 ```
 # Generate private key
