@@ -15,7 +15,7 @@ import { FormsModule } from '@angular/forms';
 })
 export class PostDetailComponent implements OnInit {
 
-  post!: Post;
+  post!: Post | undefined;
   newComment = '';
 
   constructor(private readonly route: ActivatedRoute, private readonly postService: PostService, private readonly router: Router) { }
@@ -24,18 +24,24 @@ export class PostDetailComponent implements OnInit {
 
     const postId = Number(this.route.snapshot.paramMap.get('id'));
 
+    if (isNaN(postId)) {
+      this.router.navigate(['/not-found']);
+      return;
+    }
+
     if (postId) {
 
       this.postService.getPostById(postId)
         .pipe(take(1))
         .subscribe({
-          next: (data) => (this.post = data)
+          next: (data) => (this.post = data),
+          error: () => { this.post = undefined; }
         });
     }
   }
 
   addComment(): void {
-    if (!this.newComment.trim())
+    if (!this.newComment.trim() || !this.post)
       return;
 
     this.postService.addCommentToPost(this.post.id, { content: this.newComment }).pipe(
@@ -44,8 +50,7 @@ export class PostDetailComponent implements OnInit {
       next: (updatedPost) => {
         this.post = updatedPost;
         this.newComment = '';
-      },
-      error: (err) => console.error(err)
+      }
     });
   }
 

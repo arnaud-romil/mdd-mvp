@@ -1,7 +1,7 @@
 package com.orion.mdd_api.services;
 
 import com.orion.mdd_api.dtos.TopicDto;
-import com.orion.mdd_api.exceptions.InvalidDataException;
+import com.orion.mdd_api.exceptions.ResourceNotFoundException;
 import com.orion.mdd_api.mappers.TopicMapper;
 import com.orion.mdd_api.models.Topic;
 import com.orion.mdd_api.models.User;
@@ -46,6 +46,6 @@ public class TopicService {
   public Topic findById(Long topicId) {
     return topicRepository
         .findById(topicId)
-        .orElseThrow(() -> new InvalidDataException("Topic not found"));
+        .orElseThrow(() -> new ResourceNotFoundException("Topic not found"));
   }
 }

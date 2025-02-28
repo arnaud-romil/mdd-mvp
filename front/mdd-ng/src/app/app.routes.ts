@@ -8,6 +8,8 @@ import { TopicsComponent } from './pages/topics/topics.component';
 import { CreatePostComponent } from './pages/create-post/create-post.component';
 import { RegisterComponent } from './pages/register/register.component';
 import { ProfileComponent } from './pages/profile/profile.component';
+import { ForbiddenComponent } from './pages/forbidden/forbidden.component';
+import { NotFoundComponent } from './pages/not-found/not-found.component';
 
 export const routes: Routes = [
     { path: '', component: HomeComponent },
@@ -17,5 +19,9 @@ export const routes: Routes = [
     { path: 'posts/:id', component: PostDetailComponent, canActivate: [AuthGardService] },
     { path: 'topics', component: TopicsComponent, canActivate: [AuthGardService] },
     { path: 'create-post', component: CreatePostComponent, canActivate: [AuthGardService] },
-    { path: 'profile', component: ProfileComponent, canActivate: [AuthGardService] }
+    { path: 'profile', component: ProfileComponent, canActivate: [AuthGardService] },
+    { path: 'forbidden', component: ForbiddenComponent, canActivate: [AuthGardService] },
+    { path: 'not-found', component: NotFoundComponent },
+    { path: '**', redirectTo: '/not-found' }
+
 ];

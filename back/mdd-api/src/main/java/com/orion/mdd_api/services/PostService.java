@@ -1,7 +1,7 @@
 package com.orion.mdd_api.services;
 
 import com.orion.mdd_api.dtos.PostDto;
-import com.orion.mdd_api.exceptions.InvalidDataException;
+import com.orion.mdd_api.exceptions.ResourceNotFoundException;
 import com.orion.mdd_api.exceptions.UserForbiddenException;
 import com.orion.mdd_api.mappers.PostMapper;
 import com.orion.mdd_api.models.Comment;
@@ -34,7 +34,12 @@ public class PostService {
    * @param postId the id of the post
    * @return the post
    */
-  public PostDto getSinglePost(Long postId) {
+  public PostDto getSinglePost(Long postId, String userEmail) {
+    User user = userService.findByEmail(userEmail);
+    if (user.getTopics().stream()
+        .noneMatch(topic -> topic.getId().equals(findById(postId).getTopic().getId()))) {
+      throw new UserForbiddenException("User is not subscribed to the topic");
+    }
     return postMapper.toDto(findById(postId));
   }
 
@@ -80,7 +85,7 @@ public class PostService {
   private Post findById(Long postId) {
     return postRepository
         .findById(postId)
-        .orElseThrow(() -> new InvalidDataException("Post not found"));
+        .orElseThrow(() -> new ResourceNotFoundException("Post not found"));
   }
 
   /**
