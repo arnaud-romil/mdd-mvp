@@ -126,6 +126,13 @@ public class UserService {
     User user = findByEmail(userEmail);
     user.setUsername(profileUpdateRequest.getUsername());
     user.setEmail(profileUpdateRequest.getEmail());
+    if (profileUpdateRequest.getNewPassword() != null
+        && profileUpdateRequest.getPassword() != null) {
+      if (!passwordEncoder.matches(profileUpdateRequest.getPassword(), user.getPassword())) {
+        throw new UserUnauthorizedException("Invalid credentials");
+      }
+      user.setPassword(passwordEncoder.encode(profileUpdateRequest.getNewPassword()));
+    }
     user = saveUser(user);
     return userMapper.toDto(user);
   }

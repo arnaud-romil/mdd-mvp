@@ -4,8 +4,9 @@
         <button routerLink="/create-post" class="actions__create primary-button">
             Créer un article
         </button>
-        <p class="actions__sort" (click)="toggleSort()" (keydown)="toggleSort()">Trier par date {{ sortByPostDateDesc ? '↓' :
-            '↑'}}</p>
+        <button class="actions__sort" (click)="toggleSort()" (keydown)="toggleSort()">Trier par date {{
+            sortByPostDateDesc ? '↓' :
+            '↑'}}</button>
     </div>
 
     <div class="posts">

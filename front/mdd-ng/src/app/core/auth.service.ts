@@ -7,6 +7,7 @@ import { User } from "../models/user.interface";
 import { Message } from "../models/message.interface";
 import { RegisterRequest } from "../models/register-request.interface";
 import { ProfileUpdateRequest } from "../models/profile-update-request.interface";
+import { AbstractControl } from "@angular/forms";
 
 @Injectable({
     providedIn: 'root'
@@ -63,6 +64,21 @@ export class AuthService {
 
     getToken(): string | null {
         return sessionStorage.getItem('jwt');
+    }
+
+    passwordValidator(control: AbstractControl) {
+        const value = control.value;
+        if (!value)
+            return null;
+
+        const hasUpperCase = /[A-Z]/.test(value);
+        const hasLowerCase = /[a-z]/.test(value);
+        const hasNumber = /\d/.test(value);
+        const hasSpecial = /[\W_]/.test(value);
+
+        const isValid = hasUpperCase && hasLowerCase && hasNumber && hasSpecial && value.length >= 8;
+
+        return isValid ? null : { passwordStrength: true };
     }
 
 }

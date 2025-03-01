@@ -96,60 +96,60 @@ class AuthControllerTest {
       strings = {
         // Username is empty
         """
-            {
-                "username": "",
-                "email": "valid@email.com",
-                "password": "user1Password!"
-            }
-        """,
+                        {
+                            "username": "",
+                            "email": "valid@email.com",
+                            "password": "user1Password!"
+                        }
+                    """,
         // Password has no digit
         """
-            {
-                "username": "user1",
-                "email": "valid@email.com",
-                "password": "userPassword!"
-            }
-        """,
+                        {
+                            "username": "user1",
+                            "email": "valid@email.com",
+                            "password": "userPassword!"
+                        }
+                    """,
         // Password has no special character
         """
-            {
-                "username": "user1",
-                "email": "valid@email.com",
-                "password": "user1Password"
-            }
-        """,
+                        {
+                            "username": "user1",
+                            "email": "valid@email.com",
+                            "password": "user1Password"
+                        }
+                    """,
         // Password has no lower case letter
         """
-            {
-                "username": "user1",
-                "email": "valid@email.com",
-                "password": "USER1PASSWORD!"
-            }
-        """,
+                        {
+                            "username": "user1",
+                            "email": "valid@email.com",
+                            "password": "USER1PASSWORD!"
+                        }
+                    """,
         // Password has no uppercase letter
         """
-            {
-                "username": "user1",
-                "email": "valid@email.com",
-                "password": "user1password!"
-            }
-        """,
+                        {
+                            "username": "user1",
+                            "email": "valid@email.com",
+                            "password": "user1password!"
+                        }
+                    """,
         // Password is too short
         """
-            {
-                "username": "user1",
-                "email": "valid@email.com",
-                "password": "u1P!"
-            }
-        """,
+                        {
+                            "username": "user1",
+                            "email": "valid@email.com",
+                            "password": "u1P!"
+                        }
+                    """,
         // Email is invalid
         """
-            {
-                "username": "user1",
-                "email": "invalid-email.com",
-                "password": "user1Password!"
-            }
-        """
+                        {
+                            "username": "user1",
+                            "email": "invalid-email.com",
+                            "password": "user1Password!"
+                        }
+                    """
       })
   void shouldNotAllowUserToRegister_WhenRegisterRequestIsInvalid(String registerRequest)
       throws Exception {
@@ -164,21 +164,21 @@ class AuthControllerTest {
 
     final String emailAlreadyTaken =
         """
-            {
-                "username": "user99",
-                "email": "user1@test.com",
-                "password": "user99Password!"
-            }
-        """;
+                    {
+                        "username": "user99",
+                        "email": "user1@test.com",
+                        "password": "user99Password!"
+                    }
+                """;
 
     final String usernameAlreadyTaken =
         """
-            {
-                "username": "user2",
-                "email": "user99@test.com",
-                "password": "user99Password!"
-            }
-        """;
+                    {
+                        "username": "user2",
+                        "email": "user99@test.com",
+                        "password": "user99Password!"
+                    }
+                """;
 
     return Stream.of(Arguments.of(0, emailAlreadyTaken), Arguments.of(1, usernameAlreadyTaken));
   }
@@ -188,18 +188,18 @@ class AuthControllerTest {
       strings = {
         // Login with username
         """
-            {
-                "login": "user1",
-                "password": "user1Password!"
-            }
-        """,
+                        {
+                            "login": "user1",
+                            "password": "user1Password!"
+                        }
+                    """,
         // Login with email
         """
-            {
-                "login": "user1@test.com",
-                "password": "user1Password!"
-            }
-        """
+                        {
+                            "login": "user1@test.com",
+                            "password": "user1Password!"
+                        }
+                    """
       })
   void shouldAllowUserToLogin(String loginRequest) throws Exception {
 
@@ -226,18 +226,18 @@ class AuthControllerTest {
       strings = {
         // Invalid login
         """
-            {
-                "login": "invalid-login",
-                "password": "user1Password!"
-            }
-        """,
+                        {
+                            "login": "invalid-login",
+                            "password": "user1Password!"
+                        }
+                    """,
         // Invalid password
         """
-            {
-                "login": "user1@test.com",
-                "password": "invalid-password"
-            }
-        """
+                        {
+                            "login": "user1@test.com",
+                            "password": "invalid-password"
+                        }
+                    """
       })
   void shouldNotAllowUserToLoginWithBadCredentials(String badCredentials) throws Exception {
 
@@ -275,8 +275,19 @@ class AuthControllerTest {
     int index = arguments.getInteger(0);
     String profileUpdateRequest = arguments.getString(1);
 
-    String expectedUsername = index == 0 ? "new-username" : "user1";
-    String expectedEmail = index == 0 ? "user1@test.com" : "new-email@test.com";
+    String expectedUsername;
+    String expectedEmail;
+
+    if (index == 0) {
+      expectedUsername = "new-username";
+      expectedEmail = "user1@test.com";
+    } else if (index == 1) {
+      expectedUsername = "user1";
+      expectedEmail = "new-email@test.com";
+    } else {
+      expectedUsername = "user1";
+      expectedEmail = "user1@test.com";
+    }
 
     mockMvc
         .perform(
@@ -297,21 +308,34 @@ class AuthControllerTest {
 
     final String updateUsername =
         """
-            {
-                "username": "new-username",
-                "email": "user1@test.com"
-            }
-        """;
+                    {
+                        "username": "new-username",
+                        "email": "user1@test.com"
+                    }
+                """;
 
     final String updateEmail =
         """
-            {
-                "username": "user1",
-                "email": "new-email@test.com"
-            }
-        """;
+                    {
+                        "username": "user1",
+                        "email": "new-email@test.com"
+                    }
+                """;
 
-    return Stream.of(Arguments.of(0, updateUsername), Arguments.of(1, updateEmail));
+    final String updatePassword =
+        """
+                    {
+                        "username": "user1",
+                        "email": "user1@test.com",
+                        "password": "user1Password!",
+                        "newPassword": "newPassword!123"
+                    }
+                """;
+
+    return Stream.of(
+        Arguments.of(0, updateUsername),
+        Arguments.of(1, updateEmail),
+        Arguments.of(2, updatePassword));
   }
 
   @Test

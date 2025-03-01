@@ -5,12 +5,30 @@
         <h2 class="profile-title">Profil utilisateur</h2>
 
         <form [formGroup]="profileForm" (ngSubmit)="saveProfile()" class="profile-form">
+
             <div class="form-field">
-                <input formControlName="username" class="primary-input" />
+                <input type="text" formControlName="username" class="primary-input" autocomplete="username" />
             </div>
 
             <div class="form-field">
-                <input type="email" formControlName="email" class="primary-input" />
+                <input type="email" formControlName="email" class="primary-input" autocomplete="email" />
+            </div>
+
+            <div class="update-password">
+                <input type="checkbox" formControlName="updatePassword" id="updatePassword" name="updatePassword" />
+                <label for="updatePassword"
+                    title="Le mot de passe doit comporter au moins 8 caractères dont un chiffre, une lettre minuscule, une lettre majuscule et un caractère spécial">
+                    Modifier le mot de passe <img src="img/info.png" alt="info icon" /></label>
+            </div>
+
+            <div *ngIf="profileForm.get('updatePassword')?.value" class="form-field">
+                <input type="password" formControlName="password" class="primary-input" autocomplete="current-password"
+                    placeholder="Mot de passe actuel" />
+            </div>
+
+            <div *ngIf="profileForm.get('updatePassword')?.value" class="form-field">
+                <input type="password" formControlName="newPassword" class="primary-input" autocomplete="new-password"
+                    placeholder="Nouveau mot de passe" />
             </div>
 
             <button type="submit" class="save-profile primary-button"

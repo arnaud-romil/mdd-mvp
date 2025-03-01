@@ -29,7 +29,10 @@ export class ProfileComponent implements OnInit {
   ngOnInit(): void {
     this.profileForm = this.fb.group({
       username: ['', [Validators.required, Validators.minLength(3)]],
-      email: ['', [Validators.required, Validators.email]]
+      email: ['', [Validators.required, Validators.email]],
+      updatePassword: [false, []],
+      password: [null, [this.authService.passwordValidator]],
+      newPassword: [null, [this.authService.passwordValidator]]
     });
 
     this.loadUserData();
@@ -47,6 +50,7 @@ export class ProfileComponent implements OnInit {
 
   saveProfile(): void {
     if (this.profileForm.valid) {
+
       this.authService.updateUserProfile(this.profileForm.value)
         .pipe(take(1))
         .subscribe({
@@ -55,13 +59,14 @@ export class ProfileComponent implements OnInit {
             setTimeout(() => {
               this.router.navigate(['/login']);
             }, 3000);
-          }
+          },
+          error: () => { this.matSnackBar.open("Une erreur est survenue !", 'OK', { duration: 3000 }); }
         });
     }
   }
 
   logout(): void {
     this.authService.logout();
-
+    this.router.navigate(['/login']);
   }
 }
