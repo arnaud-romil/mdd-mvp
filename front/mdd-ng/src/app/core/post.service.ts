@@ -8,7 +8,7 @@ import { Post } from '../models/post.interface';
 })
 export class PostService {
 
-  private readonly apiUrl = 'http://localhost:3000/api/posts';
+  private readonly apiUrl = 'api/posts';
 
   constructor(private readonly http: HttpClient) { }
 
@@ -20,7 +20,7 @@ export class PostService {
     return this.http.get<Post>(`${this.apiUrl}/${postId}`);
   }
 
-  createPost(postData: Post): Observable<Post> {
+  createPost(postData: { topicId: number, title: string, content: string }): Observable<Post> {
     return this.http.post<Post>(`${this.apiUrl}`, postData);
   }
 

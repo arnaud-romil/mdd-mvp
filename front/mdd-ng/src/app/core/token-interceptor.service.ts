@@ -5,7 +5,7 @@ import { catchError, Observable, switchMap, throwError } from "rxjs";
 import { Injectable } from "@angular/core";
 
 @Injectable({ providedIn: 'root' })
-export class TokenInterceptor implements HttpInterceptor {
+export class TokenInterceptorService implements HttpInterceptor {
 
     constructor(private readonly authService: AuthService, private readonly router: Router) { }
 

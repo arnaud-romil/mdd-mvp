@@ -14,7 +14,7 @@ import { AbstractControl } from "@angular/forms";
 })
 export class AuthService {
 
-    private readonly apiUrl = 'http://localhost:3000/api/auth';
+    private readonly apiUrl = 'api/auth';
 
     constructor(private readonly http: HttpClient) { }
 
