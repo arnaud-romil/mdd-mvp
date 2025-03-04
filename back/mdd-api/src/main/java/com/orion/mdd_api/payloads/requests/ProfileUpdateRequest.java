@@ -1,5 +1,6 @@
 package com.orion.mdd_api.payloads.requests;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
@@ -9,6 +10,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
+@Schema(description = "Represents a request to upate a user profile")
 public class ProfileUpdateRequest {
 
   @NotBlank private String username;

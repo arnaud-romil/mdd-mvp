@@ -1,5 +1,6 @@
 package com.orion.mdd_api.payloads.requests;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
@@ -11,6 +12,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
+@Schema(description = "Represents a request to register a new user")
 public class RegisterRequest {
 
   @NotEmpty private String username;

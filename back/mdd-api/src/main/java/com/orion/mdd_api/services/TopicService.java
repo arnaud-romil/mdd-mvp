@@ -28,12 +28,7 @@ public class TopicService {
   public List<TopicDto> getAllTopics(String userEmail) {
     User user = userService.findByEmail(userEmail);
     List<Topic> topics = topicRepository.findAll();
-    topics.forEach(
-        topic -> {
-          if (user.getTopics().contains(topic)) {
-            topic.setSubscribed(true);
-          }
-        });
+    topics.forEach(topic -> topic.setSubscribed(user.getTopics().contains(topic)));
     return topicMapper.toDtoList(topics);
   }
 

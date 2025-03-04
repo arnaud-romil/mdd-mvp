@@ -26,5 +26,5 @@ public class Topic {
   @Column(nullable = false)
   private String description;
 
-  @Transient private boolean subscribed;
+  @Transient private Boolean subscribed;
 }

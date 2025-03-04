@@ -9,6 +9,12 @@ import com.orion.mdd_api.payloads.responses.LoginResponse;
 import com.orion.mdd_api.payloads.responses.MessageResponse;
 import com.orion.mdd_api.services.RefreshTokenService;
 import com.orion.mdd_api.services.UserService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
@@ -27,6 +33,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/auth")
 @RequiredArgsConstructor
+@Tag(
+    name = "Authentication Controller",
+    description = "Endpoints for managing authentication features.")
 public class AuthController {
 
   private final UserService userService;
@@ -39,6 +48,16 @@ public class AuthController {
    * @return ResponseEntity containing the response message
    */
   @PostMapping("/register")
+  @Operation(
+      summary = "Registers a new user",
+      description = "Creates a new user and returns a message",
+      responses = {
+        @ApiResponse(
+            responseCode = "200",
+            description = "User registered",
+            content = @Content(schema = @Schema(implementation = MessageResponse.class))),
+        @ApiResponse(responseCode = "400", description = "Bad request", content = @Content())
+      })
   public ResponseEntity<MessageResponse> register(
       @Valid @RequestBody RegisterRequest registerRequest) {
     userService.registerUser(registerRequest);
@@ -52,6 +71,19 @@ public class AuthController {
    * @param response the http servlet response used to return the refresh token cookie
    * @return LoginResponse containing a JWT token
    */
+  @Operation(
+      summary = "Authenticates a user",
+      description = "Returns JWT Token if the user credentials are valid",
+      responses = {
+        @ApiResponse(
+            responseCode = "200",
+            description = "User is authenticated",
+            content = @Content(schema = @Schema(implementation = LoginResponse.class))),
+        @ApiResponse(
+            responseCode = "401",
+            description = "User is unauthorized",
+            content = @Content())
+      })
   @PostMapping("/login")
   public ResponseEntity<LoginResponse> login(
       @Valid @RequestBody LoginRequest loginRequest, HttpServletResponse response) {
@@ -66,6 +98,20 @@ public class AuthController {
    * @param authentication the authenticated principal
    * @return ResponseEntity containing the user details
    */
+  @Operation(
+      summary = "Get user details",
+      description = "Returns details of the authenticated user",
+      responses = {
+        @ApiResponse(
+            responseCode = "200",
+            description = "User details returned",
+            content = @Content(schema = @Schema(implementation = UserDto.class))),
+        @ApiResponse(
+            responseCode = "401",
+            description = "User is unauthorized",
+            content = @Content())
+      },
+      security = @SecurityRequirement(name = "bearerAuth"))
   @GetMapping("/me")
   public ResponseEntity<UserDto> me(Authentication authentication) {
     final String userEmail = authentication.getName();
@@ -82,6 +128,20 @@ public class AuthController {
    * @return ResponseEntity containing the user details
    */
   @PutMapping("/me")
+  @Operation(
+      summary = "Updates user details",
+      description = "Updates details of the authenticated user",
+      responses = {
+        @ApiResponse(
+            responseCode = "200",
+            description = "User details updated",
+            content = @Content(schema = @Schema(implementation = UserDto.class))),
+        @ApiResponse(
+            responseCode = "401",
+            description = "User is unauthorized",
+            content = @Content())
+      },
+      security = @SecurityRequirement(name = "bearerAuth"))
   public ResponseEntity<UserDto> me(
       @Valid @RequestBody ProfileUpdateRequest profileUpdateRequest,
       Authentication authentication,
@@ -101,6 +161,19 @@ public class AuthController {
    * @return LoginResponse containing the JWT token
    */
   @PostMapping("/refresh-token")
+  @Operation(
+      summary = "Refreshes user JWT token",
+      description = "Returns JWT Token if the refresh token is valid",
+      responses = {
+        @ApiResponse(
+            responseCode = "200",
+            description = "JWT token has been generated",
+            content = @Content(schema = @Schema(implementation = LoginResponse.class))),
+        @ApiResponse(
+            responseCode = "401",
+            description = "User is unauthorized",
+            content = @Content())
+      })
   public ResponseEntity<LoginResponse> refreshToken(
       @CookieValue(value = "refreshToken") String refreshToken) {
     LoginResponse loginResponse = refreshTokenService.refreshAccessToken(refreshToken);
@@ -115,6 +188,20 @@ public class AuthController {
    * @return ResponseEntity of Void
    */
   @PostMapping("/logout")
+  @Operation(
+      summary = "Logs out the authenticated user",
+      description = "Revokes the user refresh token",
+      responses = {
+        @ApiResponse(
+            responseCode = "204",
+            description = "User is logged out",
+            content = @Content()),
+        @ApiResponse(
+            responseCode = "401",
+            description = "User is unauthorized",
+            content = @Content())
+      },
+      security = @SecurityRequirement(name = "bearerAuth"))
   public ResponseEntity<Void> logout(HttpServletResponse response, Authentication authentication) {
     final String userEmail = authentication.getName();
     User user = userService.findByEmail(userEmail);

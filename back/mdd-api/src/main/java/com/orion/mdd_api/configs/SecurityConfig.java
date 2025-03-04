@@ -40,6 +40,14 @@ public class SecurityConfig {
         .authorizeHttpRequests(
             authorize -> {
               authorize
+                  .requestMatchers(
+                      "/swagger-ui.html",
+                      "/swagger-ui/**",
+                      "/v3/api-docs/**",
+                      "/v3/api-docs.yaml",
+                      "/webjars/**")
+                  .permitAll();
+              authorize
                   .requestMatchers("/auth/register", "/auth/login", "/auth/refresh-token")
                   .permitAll();
               authorize.anyRequest().authenticated();
