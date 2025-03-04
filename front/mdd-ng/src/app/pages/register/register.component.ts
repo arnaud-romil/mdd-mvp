@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../../core/auth.service';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -23,7 +23,7 @@ export class RegisterComponent implements OnInit {
   constructor(
     private readonly fb: FormBuilder,
     private readonly authService: AuthService,
-    private readonly router: Router, 
+    private readonly router: Router,
     private readonly matSnackBar: MatSnackBar
   ) { }
 
@@ -32,23 +32,8 @@ export class RegisterComponent implements OnInit {
     this.registerForm = this.fb.group({
       username: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, this.passwordValidator]]
+      password: ['', [Validators.required, this.authService.passwordValidator]]
     });
-  }
-
-  passwordValidator(control: AbstractControl) {
-    const value = control.value;
-    if (!value)
-      return null;
-
-    const hasUpperCase = /[A-Z]/.test(value);
-    const hasLowerCase = /[a-z]/.test(value);
-    const hasNumber = /\d/.test(value);
-    const hasSpecial = /[\W_]/.test(value);
-
-    const isValid = hasUpperCase && hasLowerCase && hasNumber && hasSpecial && value.length >= 8;
-
-    return isValid ? null : { passwordStrength: true };
   }
 
   register() {

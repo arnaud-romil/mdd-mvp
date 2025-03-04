@@ -8,7 +8,7 @@ import { Topic } from "../models/topic.interface";
 })
 export class TopicService {
 
-    private readonly apiUrl = 'http://localhost:3000/api/topics';
+    private readonly apiUrl = 'api/topics';
 
     constructor(private readonly http: HttpClient) { }
 
