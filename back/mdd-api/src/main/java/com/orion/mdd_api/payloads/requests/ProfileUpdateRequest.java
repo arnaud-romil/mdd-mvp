@@ -14,7 +14,7 @@ import lombok.Setter;
 public class ProfileUpdateRequest {
 
   @NotBlank private String username;
-  @Email private String email;
+  @NotBlank @Email private String email;
 
   @Size(min = 8, message = "Password must be at least 8 characters long")
   @Pattern(

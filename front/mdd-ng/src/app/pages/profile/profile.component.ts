@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { take } from 'rxjs';
 import { TopicsComponent } from "../topics/topics.component";
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { ProfileUpdateRequest } from '../../models/profile-update-request.interface';
 
 
 @Component({
@@ -31,11 +32,32 @@ export class ProfileComponent implements OnInit {
       username: ['', [Validators.required, Validators.minLength(3)]],
       email: ['', [Validators.required, Validators.email]],
       updatePassword: [false, []],
-      password: [null, [this.authService.passwordValidator]],
-      newPassword: [null, [this.authService.passwordValidator]]
+      password: [null],
+      newPassword: [null]
     });
 
     this.loadUserData();
+
+    this.profileForm.get('updatePassword')?.valueChanges.subscribe((checked) => {
+      this.togglePasswordValidators(checked);
+    });
+  }
+
+  togglePasswordValidators(checked: boolean) {
+
+    const passwordCtrl = this.profileForm.get('password');
+    const newPasswordCtrl = this.profileForm.get('newPassword');
+
+    if (checked) {
+      passwordCtrl?.setValidators([Validators.required, this.authService.passwordValidator]);
+      newPasswordCtrl?.setValidators([Validators.required, this.authService.passwordValidator]);
+    } else {
+      passwordCtrl?.clearValidators();
+      newPasswordCtrl?.clearValidators();
+    }
+
+    passwordCtrl?.updateValueAndValidity();
+    newPasswordCtrl?.updateValueAndValidity();
   }
 
   loadUserData(): void {
@@ -51,7 +73,14 @@ export class ProfileComponent implements OnInit {
   saveProfile(): void {
     if (this.profileForm.valid) {
 
-      this.authService.updateUserProfile(this.profileForm.value)
+      const profileUpdate: ProfileUpdateRequest = {
+        username: this.profileForm.get('username')?.value,
+        email: this.profileForm.get('email')?.value,
+        password: this.profileForm.get('updatePassword')?.value ? this.profileForm.get('password')?.value : null,
+        newPassword: this.profileForm.get('updatePassword')?.value ? this.profileForm.get('newPassword')?.value : null
+      };
+
+      this.authService.updateUserProfile(profileUpdate)
         .pipe(take(1))
         .subscribe({
           next: () => {

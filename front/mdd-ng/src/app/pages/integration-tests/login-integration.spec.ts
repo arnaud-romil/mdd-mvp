@@ -126,11 +126,8 @@ describe('Login integration test suite', () => {
 
         const errorParagraph = fixture.nativeElement.querySelector('p[class="error-message"]');
 
-        expect(errorParagraph.textContent).toBe("Une erreur s'est produite");
+        expect(errorParagraph.textContent).toBe("Identifiants invalides");
         expect(router.navigate).not.toHaveBeenCalled();
-    })
-
-
-
+    });
 
 });

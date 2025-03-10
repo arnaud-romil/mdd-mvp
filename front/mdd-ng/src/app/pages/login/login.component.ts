@@ -36,8 +36,8 @@ export class LoginComponent {
         next: () => {
           this.router.navigate(['/feed'])
         },
-        error: () => {
-          this.errorMessage = "Une erreur s'est produite";
+        error: (err) => {
+          this.errorMessage = err.status === 401 ? "Identifiants invalides" : "Une erreur s'est produite";
         }
       });
     }

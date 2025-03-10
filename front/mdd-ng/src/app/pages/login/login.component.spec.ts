@@ -92,7 +92,7 @@ describe('LoginComponent', () => {
     component.loginForm.get('password')?.setValue('wrong-password');
     component.onSubmit();
 
-    expect(component.errorMessage).toEqual("Une erreur s'est produite");
+    expect(component.errorMessage).toEqual("Identifiants invalides");
     expect(routerMock.navigate).not.toHaveBeenCalled();
   })
 
