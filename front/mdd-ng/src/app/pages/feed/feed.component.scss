@@ -1,0 +1,95 @@
+.feed-container {
+    width: 90%;
+    margin: 1.25rem auto;
+}
+
+.actions {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.actions__create {
+    width: 9.56rem;
+}
+
+.actions__sort {
+    font-weight: 600;
+    font-size: 1rem;
+    line-height: 1.21rem;
+    letter-spacing: 0%;
+    margin-top: 1.25rem;
+    margin-bottom: 1.25rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.posts {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.25rem;
+}
+
+.post {
+    width: 16.563rem;
+    height: 8.25rem;
+    padding: 0.5rem 0.938rem 0.625rem 0.813rem;
+}
+
+.post__info {
+    margin-top: 0.375rem;
+}
+
+.post__info p {
+    width: 6.375rem;
+}
+
+.post__content {
+    margin-top: 0.35rem;
+    height: 4.2rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.post__link {
+    color: black;
+    text-decoration: none;
+}
+
+@media (min-width: 768px) {
+
+    .actions {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .posts {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        margin-top: 1.5rem;
+    }
+
+    .post {
+        width: 22.438rem;
+        height: 11.25rem;
+        padding: 0.75rem 1.25rem 0.875rem 1.125rem;
+    }
+
+    .post__content {
+        height: 5.438rem;
+        display: -webkit-box;
+        -webkit-line-clamp: 5;
+        line-clamp: 5;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+}

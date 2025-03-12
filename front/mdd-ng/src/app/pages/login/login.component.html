@@ -1,0 +1,33 @@
+<div class="login">
+
+    <div>
+        <button (click)="goBack()" class="back-button">
+            <img src="img/back_arrow.svg" alt="Back Arrow" class="back-arrow" />
+        </button>
+    </div>
+
+    <div class="logo-title-container">
+        <img src="img/logo_p6.png" alt="Logo MDD" class="mobile-logo" />
+        <h2 class="login__title">Se connecter</h2>
+    </div>
+
+    <form class="login__form" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+
+        <div class="form-field">
+            <label for="login">E-mail ou nom d'utilisateur </label>
+            <input type="text" formControlName="login" id="login" name="login"autocomplete="username" class="secondary-input">
+        </div>
+        <div class="form-field">
+            <label for="password">Mot de passe</label>
+            <input type="password" formControlName="password" id="password" name="password" autocomplete="current-password" class="secondary-input">
+        </div>
+        <button type="submit" [disabled]="loginForm.invalid" class="primary-button"
+            [ngClass]="{ 'button--disabled': loginForm.invalid }"
+            title="Le champs login est requis et le mot de passe doit comporter 8 caractères au minimum">Se
+            connecter</button>
+
+        <p *ngIf="errorMessage" class="error-message">{{ errorMessage }}</p>
+    </form>
+
+
+</div>

@@ -1,0 +1,90 @@
+.profile-container {
+    width: 90%;
+    margin: auto;
+}
+
+.user-profile-info {
+    margin-top: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.profile-title {
+    font-weight: 700;
+    font-size: 1.5rem;
+    line-height: 1.82rem;
+    text-align: center;
+}
+
+.profile-form {
+    margin-top: 1.5rem;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.save-profile {
+    width: 8.69rem;
+}
+
+.logout-button {
+    border: none;
+    background-color: #ffffff;
+    font-weight: 700;
+    font-size: 0.88rem;
+    line-height: 1.06rem;
+    color: #a40f0f;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+hr {
+    border: 1px solid #000000;
+}
+
+.subscriptions-title {
+    display: none;
+}
+
+.user-subscriptions {
+    width: 100%;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.update-password {
+    display: flex;
+    flex-direction: row;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+@media (min-width: 768px) {
+
+    .profile-container {
+        width: 95%;
+    }
+
+    .user-profile-info {
+        width: 33%;
+        margin: 1.87rem auto auto auto;
+    }
+
+    .subscriptions-title {
+        display: block;
+        margin: 1rem auto auto auto;
+        text-align: center;
+    }
+
+    .user-subscriptions {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+}

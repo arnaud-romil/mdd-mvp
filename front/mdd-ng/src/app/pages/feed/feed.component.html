@@ -1,0 +1,28 @@
+<div class="feed-container">
+
+    <div class="actions">
+        <button routerLink="/create-post" class="actions__create primary-button">
+            Créer un article
+        </button>
+        <button class="actions__sort" (click)="toggleSort()" (keydown)="toggleSort()">Trier par date {{
+            sortByPostDateDesc ? '↓' :
+            '↑'}}</button>
+    </div>
+
+    <div class="posts">
+        <div *ngFor="let post of posts" class="post card">
+            <p class="card__title">
+                <a [routerLink]="['/posts', post.id]" class="post__link">
+                    {{ post.title }}
+                </a>
+            </p>
+            <div class="card__subtitle post__info">
+                <p>{{ post.createdAt | date:'dd/MM/yyyy' }}</p>
+                <p>{{ post.author }}</p>
+            </div>
+            <div class="card__content">
+                <p class="post__content">{{ post.content }}</p>
+            </div>
+        </div>
+    </div>
+</div>

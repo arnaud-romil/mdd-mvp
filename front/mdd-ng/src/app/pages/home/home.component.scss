@@ -1,0 +1,39 @@
+.home {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100vh;
+}
+
+.home__logo {
+    margin: 3.63rem 0rem 3.38rem 0rem;
+}
+
+.home__buttons {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 9.75rem;
+    height: 7.28rem;
+}
+
+.home__buttons>button {
+    width: 9.75rem;
+}
+
+@media (min-width: 768px) {
+
+    .home__logo {
+        width: 25.75rem;
+        height: 14.88rem;
+        margin: 5.44rem 0rem 2.75rem 0rem;
+    }
+
+    .home__buttons {
+        width: 23.56rem;
+        height: 2.5rem;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+    }
+}

@@ -1,0 +1,36 @@
+<div class="create-post__back">
+    <button (click)="goBack()" class="back-button">
+        <img src="img/back_arrow.svg" alt="Back Arrow" class="back-arrow" />
+    </button>
+</div>
+
+<div class="create-post-container">
+
+    <h2 class="create-post__title">Créer un nouvel article</h2>
+
+    <form [formGroup]="postForm" (ngSubmit)="submitPost()" class="create-post__form">
+
+        <mat-form-field class="form-field">
+            <mat-select matNativeControl formControlName="topicId">
+                <mat-option value="" disabled selected class="select-placeholder">Sélectionner un thème...</mat-option>
+                <mat-option *ngFor="let topic of topics" [value]="topic.id">
+                    {{ topic.title }}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <div class="form-field">
+            <input formControlName="title" placeholder="Titre de l'article..." class="primary-input" />
+        </div>
+
+        <div class="form-field">
+            <textarea formControlName="content" rows="6" placeholder="Contenu de l'article..."
+                class="primary-textarea"></textarea>
+        </div>
+
+        <button type="submit" [disabled]="postForm.invalid" class="create-post__button primary-button"
+            [ngClass]="{ 'button--disabled': postForm.invalid}">
+            Créer
+        </button>
+    </form>
+</div>
